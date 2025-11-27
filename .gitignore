@@ -1,0 +1,86 @@
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Environment files (contain secrets)
+.env
+*.env.local
+.env.production
+
+# Google Cloud credentials (NEVER commit!)
+*-key.json
+translation-key.json
+service-account-key.json
+google-credentials.json
+
+# Database files (contains user data)
+*.db
+*.h2.db
+*.trace.db
+*.lock.db
+data/
+h2-data/
+
+# SSL/TLS certificates
+*.pem
+*.crt
+*.key
+*.p12
+*.jks
+ssl/
+certs/
+
+# Uploads directory
+uploads/
+profile-pictures/
+
+# Build output
+build/
+out/
+
+# Spring Boot
+spring-shell.log
+application-prod.properties
+application-production.properties
+application-secrets.properties
+
+# JetBrains
+.idea/
+*.iml
+out/
+
+# Gradle (if switching build tool)
+.gradle/
+build/
+
+# Package files
+*.jar
+*.war
+*.ear
+
+# Temporary files
+tmp/
+temp/
