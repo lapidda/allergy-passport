@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{dashboard.title} + ' | ' + #{app.name}">Dashboard | Allergy Passport</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: { 50: '#FFF7ED', 100: '#FFEDD5', 200: '#FED7AA', 300: '#FDBA74', 400: '#FB923C', 500: '#F97316', 600: '#EA580C', 700: '#C2410C', 800: '#9A3412', 900: '#7C2D12' },
+                        beige: { 50: '#FAF7F2', 100: '#F5EFE7', 200: '#E8DCC8', 300: '#D4C4A8', 400: '#C0AB88' },
+                        danger: { 50: '#fef2f2', 100: '#fee2e2', 500: '#ef4444', 600: '#dc2626', 700: '#b91c1c' },
+                        warning: { 50: '#fffbeb', 100: '#fef3c7', 500: '#f59e0b', 600: '#d97706' }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-beige-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-beige-100 shadow-sm border-b border-beige-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="/" class="flex items-center space-x-2">
+                        <span class="text-2xl">🛡️</span>
+                        <span class="font-bold text-xl text-gray-900" th:text="#{app.name}">Allergy Passport</span>
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="/dashboard" class="text-primary-600 font-medium px-3 py-2 rounded-md text-sm" th:text="#{nav.dashboard}">Dashboard</a>
+                    <a href="/profile" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium" th:text="#{nav.profile}">Profile</a>
+                    <div class="border-l border-gray-200 h-6"></div>
+                    <th:block th:replace="~{fragments/language-switcher :: languageSwitcher}"/>
+                    <div class="border-l border-gray-200 h-6"></div>
+                    <span class="text-sm text-gray-500" th:text="${user.displayName}">User</span>
+                    <form th:action="@{/logout}" method="post" class="inline">
+                        <button type="submit" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium" th:text="#{nav.logout}">Logout</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-8" th:text="#{dashboard.title}">My Allergy Passport</h1>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Allergy List Section -->
+            <div class="lg:col-span-2">
+                <div class="bg-white shadow rounded-lg">
+                    <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                        <h2 class="text-lg font-semibold text-gray-900" th:text="#{dashboard.allergies.title}">My Allergies</h2>
+                        <button onclick="document.getElementById('addModal').classList.remove('hidden')"
+                                class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                            </svg>
+                            <span th:text="#{dashboard.allergies.add}">Add Allergy</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Allergy List Container (HTMX target) -->
+                    <div id="allergy-list" class="divide-y divide-gray-200">
+                        <th:block th:replace="~{fragments/allergies :: allergyList}"/>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QR Code & Share Section -->
+            <div class="space-y-6">
+                <!-- QR Code Card -->
+                <div class="bg-white shadow rounded-lg p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4" th:text="#{dashboard.qr.title}">Your QR Code</h2>
+                    <div class="flex justify-center">
+                        <div th:if="${qrCodeDataUrl}" class="bg-white p-4 rounded-lg border-2 border-gray-100">
+                            <img th:src="${qrCodeDataUrl}" alt="QR Code" class="w-48 h-48"/>
+                        </div>
+                        <div th:unless="${qrCodeDataUrl}" class="bg-gray-100 w-48 h-48 rounded-lg flex items-center justify-center">
+                            <span class="text-gray-400">QR Code Error</span>
+                        </div>
+                    </div>
+                    <p class="mt-4 text-sm text-gray-500 text-center" th:text="#{dashboard.qr.desc}">
+                        Scan this code to view your public allergy passport
+                    </p>
+                    <a th:href="@{/qr/{id}/download(id=${user.publicId})}" 
+                       class="mt-4 w-full inline-flex justify-center items-center px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                        </svg>
+                        <span th:text="#{dashboard.qr.download}">Download QR Code</span>
+                    </a>
+                </div>
+
+                <!-- Share Link Card -->
+                <div class="bg-white shadow rounded-lg p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4" th:text="#{dashboard.share.title}">Share Your Passport</h2>
+                    <label class="block text-sm font-medium text-gray-700 mb-2" th:text="#{dashboard.share.url}">Your public link:</label>
+                    <div class="flex">
+                        <input type="text"
+                               th:value="${publicUrl}"
+                               readonly
+                               class="flex-1 block w-full rounded-l-md border-gray-300 bg-gray-50 text-sm text-gray-500 focus:ring-primary-500 focus:border-primary-500 px-3 py-2 border"/>
+                        <button th:attr="data-url=${publicUrl}"
+                                onclick="copyToClipboard(this.getAttribute('data-url'))"
+                                class="inline-flex items-center px-4 py-2 border border-l-0 border-gray-300 rounded-r-md bg-gray-50 text-sm font-medium text-gray-700 hover:bg-gray-100">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <a th:href="@{/u/{id}(id=${user.publicId})}" 
+                       target="_blank"
+                       class="mt-4 w-full inline-flex justify-center items-center px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-primary-600 hover:bg-primary-700">
+                        Preview Public Page
+                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Allergy Modal -->
+    <div id="addModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+        <div class="relative top-20 mx-auto p-5 border w-full max-w-md shadow-lg rounded-lg bg-white">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold text-gray-900" th:text="#{allergy.form.title}">Add Allergy</h3>
+                <button onclick="document.getElementById('addModal').classList.add('hidden')" class="text-gray-400 hover:text-gray-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <form hx-post="/api/allergies" 
+                  hx-target="#allergy-list" 
+                  hx-swap="innerHTML"
+                  hx-on::after-request="if(event.detail.successful) document.getElementById('addModal').classList.add('hidden')">
+                <div class="space-y-4">
+                    <!-- Allergy Type -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700" th:text="#{allergy.form.type}">Allergy Type</label>
+                        <select name="allergyType" required
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 py-2 px-3 border">
+                            <option value="">Select an allergy...</option>
+                            <th:block th:each="type : ${allAllergyTypes}">
+                                <option th:value="${type.name()}" 
+                                        th:text="${type.emoji + ' ' + #messages.msg(type.messageKey)}">Peanuts</option>
+                            </th:block>
+                        </select>
+                    </div>
+
+                    <!-- Severity -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2" th:text="#{allergy.form.severity}">Severity</label>
+                        <div class="space-y-2">
+                            <label class="flex items-start p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
+                                <input type="radio" name="severity" value="INTOLERANCE" required class="mt-1"/>
+                                <div class="ml-3">
+                                    <span class="block text-sm font-medium text-amber-700">⚠️ <span th:text="#{severity.intolerance}">Intolerance</span></span>
+                                    <span class="block text-xs text-gray-500" th:text="#{severity.intolerance.desc}">Causes discomfort but not life-threatening</span>
+                                </div>
+                            </label>
+                            <label class="flex items-start p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
+                                <input type="radio" name="severity" value="SEVERE" required class="mt-1"/>
+                                <div class="ml-3">
+                                    <span class="block text-sm font-medium text-red-700">☠️ <span th:text="#{severity.severe}">Severe / Anaphylactic</span></span>
+                                    <span class="block text-xs text-gray-500" th:text="#{severity.severe.desc}">Can cause life-threatening reaction</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Notes -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700" th:text="#{allergy.form.notes}">Notes (Optional)</label>
+                        <textarea name="notes" rows="2"
+                                  th:placeholder="#{allergy.form.notes.placeholder}"
+                                  class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 py-2 px-3 border"></textarea>
+                    </div>
+                </div>
+
+                <div class="mt-6 flex justify-end space-x-3">
+                    <button type="button" 
+                            onclick="document.getElementById('addModal').classList.add('hidden')"
+                            class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
+                            th:text="#{allergy.form.cancel}">Cancel</button>
+                    <button type="submit"
+                            class="px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-primary-600 hover:bg-primary-700"
+                            th:text="#{allergy.form.save}">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Allergy Modal -->
+    <div id="editModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+        <div class="relative top-20 mx-auto p-5 border w-full max-w-md shadow-lg rounded-lg bg-white modal-content">
+            <!-- Content will be loaded via HTMX -->
+        </div>
+    </div>
+
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Link copied to clipboard!');
+            });
+        }
+    </script>
+</body>
+</html>

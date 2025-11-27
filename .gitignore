@@ -84,3 +84,6 @@ build/
 # Temporary files
 tmp/
 temp/
+
+# Secrets
+client_secret*

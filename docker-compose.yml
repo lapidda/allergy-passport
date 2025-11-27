@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: allergy-passport-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-allergypassport}
+      POSTGRES_USER: ${DB_USERNAME:-allergypassport}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-allergypassport}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-allergypassport} -d ${DB_NAME:-allergypassport}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - allergy-passport-network
+
+  # Spring Boot Application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: allergy-passport-app
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      # Database
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-allergypassport}
+      DB_USERNAME: ${DB_USERNAME:-allergypassport}
+      DB_PASSWORD: ${DB_PASSWORD:-allergypassport}
+      
+      # Google OAuth2 (required - set in .env file)
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      # Translation Configuration
+      TRANSLATION_PROVIDER: google-cloud
+      GOOGLE_CLOUD_PROJECT_ID: ${GOOGLE_CLOUD_PROJECT_ID}
+      GOOGLE_APPLICATION_CREDENTIALS: /app/config/translation-key.json
+      # Application
+      APP_BASE_URL: ${APP_BASE_URL:-http://localhost:8080}
+      UPLOAD_DIR: /app/uploads
+      
+      # Spring profiles
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-prod}
+      
+      # JVM options
+      JAVA_OPTS: "-Xmx512m -Xms256m"
+    volumes:
+      - uploads_data:/app/uploads
+      - ./translation-key.json:/app/config/translation-key.json:ro
+    ports:
+      - "8080:8080"
+    networks:
+      - allergy-passport-network
+
+volumes:
+  postgres_data:
+    driver: local
+  uploads_data:
+    driver: local
+
+networks:
+  allergy-passport-network:
+    driver: bridge

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Profile Fragments</title>
+</head>
+<body>
+
+<!-- Profile Picture Fragment -->
+<th:block th:fragment="profilePicture">
+    <div class="flex items-center space-x-6">
+        <!-- Current Picture -->
+        <div class="shrink-0">
+            <img th:if="${user.hasCustomProfilePicture()}"
+                 th:src="@{/profile-picture/{id}(id=${user.publicId})}"
+                 class="h-24 w-24 object-cover rounded-full border-4 border-gray-200"
+                 alt="Profile picture"/>
+            <img th:unless="${user.hasCustomProfilePicture()}"
+                 th:src="${user.googlePictureUrl} ?: 'https://ui-avatars.com/api/?name=' + ${user.displayName} + '&background=3b82f6&color=fff&size=96'"
+                 class="h-24 w-24 object-cover rounded-full border-4 border-gray-200"
+                 alt="Profile picture"/>
+        </div>
+        
+        <!-- Upload Form -->
+        <div class="flex-1">
+            <!-- Success/Error Messages -->
+            <div th:if="${success}" class="mb-3 rounded-md bg-green-50 p-3">
+                <p class="text-sm text-green-700" th:text="${success}">Success</p>
+            </div>
+            <div th:if="${error}" class="mb-3 rounded-md bg-red-50 p-3">
+                <p class="text-sm text-red-700" th:text="${error}">Error</p>
+            </div>
+            
+            <form hx-post="/api/profile/picture" 
+                  hx-encoding="multipart/form-data"
+                  hx-target="#profile-picture-section"
+                  hx-swap="innerHTML"
+                  class="flex items-center space-x-4">
+                <input type="file" 
+                       name="picture" 
+                       accept="image/*"
+                       class="block w-full text-sm text-gray-500
+                              file:mr-4 file:py-2 file:px-4
+                              file:rounded-md file:border-0
+                              file:text-sm file:font-medium
+                              file:bg-primary-50 file:text-primary-700
+                              hover:file:bg-primary-100"/>
+                <button type="submit"
+                        class="px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-primary-600 hover:bg-primary-700"
+                        th:text="#{profile.picture.upload}">Upload</button>
+            </form>
+            
+            <div th:if="${user.hasCustomProfilePicture()}" class="mt-3">
+                <button hx-delete="/api/profile/picture"
+                        hx-target="#profile-picture-section"
+                        hx-swap="innerHTML"
+                        hx-confirm="Remove your custom profile picture?"
+                        class="text-sm text-red-600 hover:text-red-800"
+                        th:text="#{profile.picture.remove}">Remove Picture</button>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+<!-- Profile Form Fragment -->
+<th:block th:fragment="profileForm">
+    <!-- Success Message -->
+    <div th:if="${success}" class="rounded-md bg-green-50 p-4 mb-4">
+        <div class="flex">
+            <svg class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+            </svg>
+            <p class="ml-3 text-sm font-medium text-green-800" th:text="${success}">Profile updated successfully</p>
+        </div>
+    </div>
+    
+    <!-- Error Message -->
+    <div th:if="${error}" class="rounded-md bg-red-50 p-4 mb-4">
+        <div class="flex">
+            <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+            </svg>
+            <p class="ml-3 text-sm font-medium text-red-800" th:text="${error}">Error occurred</p>
+        </div>
+    </div>
+</th:block>
+
+</body>
+</html>

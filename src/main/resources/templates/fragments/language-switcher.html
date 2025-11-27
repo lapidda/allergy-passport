@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Language Switcher Fragment</title>
+</head>
+<body>
+
+<!-- Language Switcher Dropdown (for navigation bars) - 20 Languages -->
+<th:block th:fragment="languageSwitcher">
+    <div class="relative" x-data="{ open: false }">
+        <button @click="open = !open"
+                class="flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100">
+            <span th:if="${#locale.toString() == 'en'}">🇬🇧 English</span>
+            <span th:if="${#locale.toString() == 'de'}">🇩🇪 Deutsch</span>
+            <span th:if="${#locale.toString() == 'fr'}">🇫🇷 Français</span>
+            <span th:if="${#locale.toString() == 'it'}">🇮🇹 Italiano</span>
+            <span th:if="${#locale.toString() == 'es'}">🇪🇸 Español</span>
+            <span th:if="${#locale.toString() == 'pt'}">🇵🇹 Português</span>
+            <span th:if="${#locale.toString() == 'ru'}">🇷🇺 Русский</span>
+            <span th:if="${#locale.toString() == 'zh' || #locale.toString() == 'zh-CN'}">🇨🇳 中文</span>
+            <span th:if="${#locale.toString() == 'ja'}">🇯🇵 日本語</span>
+            <span th:if="${#locale.toString() == 'ko'}">🇰🇷 한국어</span>
+            <span th:if="${#locale.toString() == 'ar'}">🇸🇦 العربية</span>
+            <span th:if="${#locale.toString() == 'tr'}">🇹🇷 Türkçe</span>
+            <span th:if="${#locale.toString() == 'nl'}">🇳🇱 Nederlands</span>
+            <span th:if="${#locale.toString() == 'pl'}">🇵🇱 Polski</span>
+            <span th:if="${#locale.toString() == 'sv'}">🇸🇪 Svenska</span>
+            <span th:if="${#locale.toString() == 'da'}">🇩🇰 Dansk</span>
+            <span th:if="${#locale.toString() == 'no'}">🇳🇴 Norsk</span>
+            <span th:if="${#locale.toString() == 'fi'}">🇫🇮 Suomi</span>
+            <span th:if="${#locale.toString() == 'el'}">🇬🇷 Ελληνικά</span>
+            <span th:if="${#locale.toString() == 'hi'}">🇮🇳 हिन्दी</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+        </button>
+
+        <div x-show="open"
+             @click.away="open = false"
+             class="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50 max-h-96 overflow-y-auto">
+            <div class="py-1">
+                <a th:href="@{''(lang='en')}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <span class="mr-3">🇬🇧</span>
+                    <span>English</span>
+                </a>
+                <a th:href="@{''(lang='es')}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <span class="mr-3">🇪🇸</span>
+                    <span>Español</span>
+                </a>
+                <a th:href="@{''(lang='fr')}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <span class="mr-3">🇫🇷</span>
+                    <span>Français</span>
+                </a>
+                <a th:href="@{''(lang='de')}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <span class="mr-3">🇩🇪</span>
+                    <span>Deutsch</span>
+                </a>
+                <a th:href="@{''(lang='it')}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <span class="mr-3">🇮🇹</span>
+                    <span>Italiano</span>
+                </a>
+                <a th:href="@{''(lang='pt')}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <span class="mr-3">🇵🇹</span>
+                    <span>Português</span>
+                </a>
+                <a th:href="@{''(lang='ru')}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <span class="mr-3">🇷🇺</span>
+                    <span>Русский</span>
+                </a>
+                <a th:href="@{''(lang='zh')}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <span class="mr-3">🇨🇳</span>
+                    <span>中文 (简体)</span>
+                </a>
+                <a th:href="@{''(lang='ja')}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <span class="mr-3">🇯🇵</span>
+                    <span>日本語</span>
+                </a>
+                <a th:href="@{''(lang='ko')}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <span class="mr-3">🇰🇷</span>
+                    <span>한국어</span>
+                </a>
+                <a th:href="@{''(lang='ar')}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <span class="mr-3">🇸🇦</span>
+                    <span>العربية</span>
+                </a>
+                <a th:href="@{''(lang='tr')}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <span class="mr-3">🇹🇷</span>
+                    <span>Türkçe</span>
+                </a>
+                <a th:href="@{''(lang='nl')}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <span class="mr-3">🇳🇱</span>
+                    <span>Nederlands</span>
+                </a>
+                <a th:href="@{''(lang='pl')}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <span class="mr-3">🇵🇱</span>
+                    <span>Polski</span>
+                </a>
+                <a th:href="@{''(lang='sv')}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <span class="mr-3">🇸🇪</span>
+                    <span>Svenska</span>
+                </a>
+                <a th:href="@{''(lang='da')}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <span class="mr-3">🇩🇰</span>
+                    <span>Dansk</span>
+                </a>
+                <a th:href="@{''(lang='no')}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <span class="mr-3">🇳🇴</span>
+                    <span>Norsk</span>
+                </a>
+                <a th:href="@{''(lang='fi')}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <span class="mr-3">🇫🇮</span>
+                    <span>Suomi</span>
+                </a>
+                <a th:href="@{''(lang='el')}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <span class="mr-3">🇬🇷</span>
+                    <span>Ελληνικά</span>
+                </a>
+                <a th:href="@{''(lang='hi')}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <span class="mr-3">🇮🇳</span>
+                    <span>हिन्दी</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+<!-- Simple Language Flags (for public pages - scrollable layout with 20 languages) -->
+<th:block th:fragment="languageFlags">
+    <div class="flex items-center space-x-2 overflow-x-auto max-w-sm pb-1" style="scrollbar-width: thin;">
+        <a th:href="@{''(lang='en')}"
+           class="text-2xl hover:scale-110 transition-transform flex-shrink-0"
+           th:classappend="${#locale.toString() == 'en' ? 'ring-2 ring-orange-500 rounded' : ''}"
+           title="English">🇬🇧</a>
+        <a th:href="@{''(lang='es')}"
+           class="text-2xl hover:scale-110 transition-transform flex-shrink-0"
+           th:classappend="${#locale.toString() == 'es' ? 'ring-2 ring-orange-500 rounded' : ''}"
+           title="Español">🇪🇸</a>
+        <a th:href="@{''(lang='fr')}"
+           class="text-2xl hover:scale-110 transition-transform flex-shrink-0"
+           th:classappend="${#locale.toString() == 'fr' ? 'ring-2 ring-orange-500 rounded' : ''}"
+           title="Français">🇫🇷</a>
+        <a th:href="@{''(lang='de')}"
+           class="text-2xl hover:scale-110 transition-transform flex-shrink-0"
+           th:classappend="${#locale.toString() == 'de' ? 'ring-2 ring-orange-500 rounded' : ''}"
+           title="Deutsch">🇩🇪</a>
+        <a th:href="@{''(lang='it')}"
+           class="text-2xl hover:scale-110 transition-transform flex-shrink-0"
+           th:classappend="${#locale.toString() == 'it' ? 'ring-2 ring-orange-500 rounded' : ''}"
+           title="Italiano">🇮🇹</a>
+        <a th:href="@{''(lang='pt')}"
+           class="text-2xl hover:scale-110 transition-transform flex-shrink-0"
+           th:classappend="${#locale.toString() == 'pt' ? 'ring-2 ring-orange-500 rounded' : ''}"
+           title="Português">🇵🇹</a>
+        <a th:href="@{''(lang='ru')}"
+           class="text-2xl hover:scale-110 transition-transform flex-shrink-0"
+           th:classappend="${#locale.toString() == 'ru' ? 'ring-2 ring-orange-500 rounded' : ''}"
+           title="Русский">🇷🇺</a>
+        <a th:href="@{''(lang='zh')}"
+           class="text-2xl hover:scale-110 transition-transform flex-shrink-0"
+           th:classappend="${#locale.toString() == 'zh' || #locale.toString() == 'zh-CN' ? 'ring-2 ring-orange-500 rounded' : ''}"
+           title="中文">🇨🇳</a>
+        <a th:href="@{''(lang='ja')}"
+           class="text-2xl hover:scale-110 transition-transform flex-shrink-0"
+           th:classappend="${#locale.toString() == 'ja' ? 'ring-2 ring-orange-500 rounded' : ''}"
+           title="日本語">🇯🇵</a>
+        <a th:href="@{''(lang='ko')}"
+           class="text-2xl hover:scale-110 transition-transform flex-shrink-0"
+           th:classappend="${#locale.toString() == 'ko' ? 'ring-2 ring-orange-500 rounded' : ''}"
+           title="한국어">🇰🇷</a>
+        <a th:href="@{''(lang='ar')}"
+           class="text-2xl hover:scale-110 transition-transform flex-shrink-0"
+           th:classappend="${#locale.toString() == 'ar' ? 'ring-2 ring-orange-500 rounded' : ''}"
+           title="العربية">🇸🇦</a>
+        <a th:href="@{''(lang='tr')}"
+           class="text-2xl hover:scale-110 transition-transform flex-shrink-0"
+           th:classappend="${#locale.toString() == 'tr' ? 'ring-2 ring-orange-500 rounded' : ''}"
+           title="Türkçe">🇹🇷</a>
+        <a th:href="@{''(lang='nl')}"
+           class="text-2xl hover:scale-110 transition-transform flex-shrink-0"
+           th:classappend="${#locale.toString() == 'nl' ? 'ring-2 ring-orange-500 rounded' : ''}"
+           title="Nederlands">🇳🇱</a>
+        <a th:href="@{''(lang='pl')}"
+           class="text-2xl hover:scale-110 transition-transform flex-shrink-0"
+           th:classappend="${#locale.toString() == 'pl' ? 'ring-2 ring-orange-500 rounded' : ''}"
+           title="Polski">🇵🇱</a>
+        <a th:href="@{''(lang='sv')}"
+           class="text-2xl hover:scale-110 transition-transform flex-shrink-0"
+           th:classappend="${#locale.toString() == 'sv' ? 'ring-2 ring-orange-500 rounded' : ''}"
+           title="Svenska">🇸🇪</a>
+        <a th:href="@{''(lang='da')}"
+           class="text-2xl hover:scale-110 transition-transform flex-shrink-0"
+           th:classappend="${#locale.toString() == 'da' ? 'ring-2 ring-orange-500 rounded' : ''}"
+           title="Dansk">🇩🇰</a>
+        <a th:href="@{''(lang='no')}"
+           class="text-2xl hover:scale-110 transition-transform flex-shrink-0"
+           th:classappend="${#locale.toString() == 'no' ? 'ring-2 ring-orange-500 rounded' : ''}"
+           title="Norsk">🇳🇴</a>
+        <a th:href="@{''(lang='fi')}"
+           class="text-2xl hover:scale-110 transition-transform flex-shrink-0"
+           th:classappend="${#locale.toString() == 'fi' ? 'ring-2 ring-orange-500 rounded' : ''}"
+           title="Suomi">🇫🇮</a>
+        <a th:href="@{''(lang='el')}"
+           class="text-2xl hover:scale-110 transition-transform flex-shrink-0"
+           th:classappend="${#locale.toString() == 'el' ? 'ring-2 ring-orange-500 rounded' : ''}"
+           title="Ελληνικά">🇬🇷</a>
+        <a th:href="@{''(lang='hi')}"
+           class="text-2xl hover:scale-110 transition-transform flex-shrink-0"
+           th:classappend="${#locale.toString() == 'hi' ? 'ring-2 ring-orange-500 rounded' : ''}"
+           title="हिन्दी">🇮🇳</a>
+    </div>
+</th:block>
+
+</body>
+</html>

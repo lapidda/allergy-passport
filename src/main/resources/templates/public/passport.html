@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{passport.title} + ' - ' + ${user.displayName}">Allergy Passport</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: { 50: '#FFF7ED', 100: '#FFEDD5', 200: '#FED7AA', 300: '#FDBA74', 400: '#FB923C', 500: '#F97316', 600: '#EA580C', 700: '#C2410C', 800: '#9A3412', 900: '#7C2D12' },
+                        beige: { 50: '#FAF7F2', 100: '#F5EFE7', 200: '#E8DCC8', 300: '#D4C4A8', 400: '#C0AB88' },
+                        danger: { 50: '#fef2f2', 100: '#fee2e2', 500: '#ef4444', 600: '#dc2626', 700: '#b91c1c', 800: '#991b1b' },
+                        warning: { 50: '#fffbeb', 100: '#fef3c7', 500: '#f59e0b', 600: '#d97706', 700: '#b45309' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* High-contrast styles for accessibility */
+        .severity-severe {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            border-left: 4px solid #dc2626;
+        }
+        .severity-intolerance {
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            border-left: 4px solid #d97706;
+        }
+        
+        /* Mobile-first responsive design */
+        @media (max-width: 640px) {
+            .allergy-card {
+                padding: 1rem;
+            }
+            .allergy-icon {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-beige-50 min-h-screen">
+    <!-- Language Selector Header -->
+    <header class="bg-beige-100 shadow-sm sticky top-0 z-50">
+        <div class="max-w-2xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <span class="text-xl">🛡️</span>
+                <span class="font-semibold text-gray-900" th:text="#{passport.title}">Allergy Passport</span>
+            </div>
+            
+            <!-- Language Flags -->
+            <th:block th:replace="~{fragments/language-switcher :: languageFlags}"/>
+        </div>
+    </header>
+
+    <main class="max-w-2xl mx-auto px-4 py-8">
+        <!-- User Profile Card -->
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden mb-6">
+            <div class="bg-gradient-to-r from-primary-600 to-primary-700 px-6 py-8 text-center">
+                <!-- Profile Picture -->
+                <div class="mx-auto w-24 h-24 rounded-full border-4 border-white shadow-lg overflow-hidden">
+                    <img th:if="${user.hasCustomProfilePicture()}"
+                         th:src="@{/profile-picture/{id}(id=${user.publicId})}"
+                         class="w-full h-full object-cover"
+                         alt="Profile"/>
+                    <img th:unless="${user.hasCustomProfilePicture()}"
+                         th:src="${user.googlePictureUrl} ?: 'https://ui-avatars.com/api/?name=' + ${user.displayName} + '&background=ffffff&color=2563eb&size=96'"
+                         class="w-full h-full object-cover"
+                         alt="Profile"/>
+                </div>
+                
+                <!-- Name -->
+                <h1 class="mt-4 text-2xl font-bold text-white" th:text="${user.displayName}">User Name</h1>
+                
+                <!-- Bio (translated if available) -->
+                <p th:if="${user.bio != null and !user.bio.isEmpty()}"
+                   class="mt-2 text-primary-100 text-sm max-w-md mx-auto"
+                   th:text="${translatedBio != null ? translatedBio : user.bio}">User bio here</p>
+            </div>
+        </div>
+
+        <!-- Allergies Section -->
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h2 class="text-lg font-bold text-gray-900 flex items-center">
+                    <svg class="w-5 h-5 mr-2 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                    </svg>
+                    <span th:text="#{passport.allergies}">Food Allergies</span>
+                </h2>
+            </div>
+
+            <!-- Empty State -->
+            <div th:if="${#lists.isEmpty(allergies)}" class="p-8 text-center">
+                <p class="text-gray-500" th:text="#{passport.no.allergies}">No allergies registered</p>
+            </div>
+
+            <!-- Allergy List -->
+            <div th:unless="${#lists.isEmpty(allergies)}" class="divide-y divide-gray-100">
+                <th:block th:each="allergy : ${allergies}">
+                    <!-- Severe Allergy -->
+                    <div th:if="${allergy.severity.name() == 'SEVERE'}" 
+                         class="allergy-card severity-severe p-5">
+                        <div class="flex items-start space-x-4">
+                            <!-- Icon -->
+                            <span class="allergy-icon text-3xl" th:text="${allergy.allergyType.emoji}">🥜</span>
+                            
+                            <div class="flex-1 min-w-0">
+                                <!-- Allergy Name -->
+                                <h3 class="text-lg font-bold text-danger-800" th:text="#{${allergy.allergyType.messageKey}}">Peanuts</h3>
+                                
+                                <!-- Severity Badge -->
+                                <div class="mt-1 inline-flex items-center px-3 py-1 rounded-full text-sm font-bold bg-danger-600 text-white">
+                                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <span th:text="#{passport.warning.severe}">SEVERE - Risk of anaphylaxis</span>
+                                </div>
+                                
+                                <!-- Notes (translated if available) -->
+                                <p th:if="${allergy.notes != null and !allergy.notes.isEmpty()}"
+                                   class="mt-3 text-sm text-danger-700 bg-white bg-opacity-50 rounded-lg p-3">
+                                    <span class="font-medium" th:text="#{passport.notes}">Notes</span>:
+                                    <span th:text="${translatedNotes != null and translatedNotes[allergy.id] != null ? translatedNotes[allergy.id] : allergy.notes}">Notes here</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Intolerance -->
+                    <div th:if="${allergy.severity.name() == 'INTOLERANCE'}" 
+                         class="allergy-card severity-intolerance p-5">
+                        <div class="flex items-start space-x-4">
+                            <!-- Icon -->
+                            <span class="allergy-icon text-3xl" th:text="${allergy.allergyType.emoji}">🥜</span>
+                            
+                            <div class="flex-1 min-w-0">
+                                <!-- Allergy Name -->
+                                <h3 class="text-lg font-bold text-warning-700" th:text="#{${allergy.allergyType.messageKey}}">Dairy</h3>
+                                
+                                <!-- Severity Badge -->
+                                <div class="mt-1 inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-warning-500 text-white">
+                                    <span>⚠️</span>
+                                    <span class="ml-1" th:text="#{passport.warning.intolerance}">Intolerance</span>
+                                </div>
+                                
+                                <!-- Notes (translated if available) -->
+                                <p th:if="${allergy.notes != null and !allergy.notes.isEmpty()}"
+                                   class="mt-3 text-sm text-warning-700 bg-white bg-opacity-50 rounded-lg p-3">
+                                    <span class="font-medium" th:text="#{passport.notes}">Notes</span>:
+                                    <span th:text="${translatedNotes != null and translatedNotes[allergy.id] != null ? translatedNotes[allergy.id] : allergy.notes}">Notes here</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-8 text-center">
+            <p class="text-sm text-gray-400" th:text="#{passport.powered.by}">Powered by Allergy Passport</p>
+            <a href="/" class="mt-2 inline-flex items-center text-sm text-primary-600 hover:text-primary-700">
+                Create your own free passport
+                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                </svg>
+            </a>
+        </div>
+    </main>
+</body>
+</html>
