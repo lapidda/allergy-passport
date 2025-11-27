@@ -1,6 +1,6 @@
-# Allergy Passport - Debian Server Deployment Guide
+# Allergy Passport - Ubuntu Server Deployment Guide
 
-Complete guide for deploying the Allergy Passport application to a Debian server in production.
+Complete guide for deploying the Allergy Passport application to an Ubuntu server in production.
 
 ---
 
@@ -27,7 +27,7 @@ Complete guide for deploying the Allergy Passport application to a Debian server
 
 ### Server Requirements
 
-- **OS**: Debian 11 (Bullseye) or 12 (Bookworm)
+- **OS**: Ubuntu 20.04 LTS, 22.04 LTS, or 24.04 LTS (recommended)
 - **RAM**: Minimum 2GB (4GB recommended)
 - **Storage**: Minimum 20GB
 - **CPU**: 2 cores minimum
@@ -92,11 +92,11 @@ sudo apt install -y ca-certificates curl gnupg lsb-release
 
 # Add Docker's official GPG key
 sudo mkdir -p /etc/apt/keyrings
-curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 
 # Set up repository
 echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 # Install Docker Engine
@@ -168,8 +168,11 @@ SPRING_PROFILES_ACTIVE=prod
 ```
 
 **Important**:
+- Replace `yourdomain.com` with your actual domain name
+- **MUST use HTTPS** in `APP_BASE_URL` for OAuth to work in production
 - Replace `CHANGE_THIS_TO_STRONG_PASSWORD` with a strong password
 - Use a password generator: `openssl rand -base64 32`
+- Replace `your-client-id`, `your-client-secret`, and `your-project-id` with actual values
 
 ### 3. Secure the Environment File
 
@@ -193,15 +196,24 @@ chmod 600 .env
 
 ### 2. Configure Authorized Redirect URIs
 
-Add these URIs:
+Add these URIs (replace `yourdomain.com` with your actual domain):
 ```
 https://yourdomain.com/login/oauth2/code/google
 https://www.yourdomain.com/login/oauth2/code/google
 ```
 
+**CRITICAL**:
+- OAuth redirect URIs **MUST use HTTPS** (not HTTP) in production
+- The redirect URI must exactly match your `APP_BASE_URL` in the `.env` file
+- If using `www.yourdomain.com`, add both with and without `www`
+
 ### 3. Update .env File
 
 Copy the Client ID and Client Secret to your `.env` file.
+
+**Verify**:
+- `APP_BASE_URL` in `.env` matches the domain in your OAuth redirect URIs
+- Both use HTTPS (e.g., `APP_BASE_URL=https://yourdomain.com`)
 
 ---
 
@@ -265,12 +277,17 @@ docker compose ps
 docker compose logs -f app
 ```
 
+**Note**: The application is pre-configured to work behind an HTTPS reverse proxy:
+- `server.forward-headers-strategy=framework` trusts X-Forwarded headers from Nginx
+- This ensures OAuth redirect URIs use HTTPS when accessed through the reverse proxy
+- No additional configuration needed if following this guide
+
 ### 2. Verify Application
 
 ```bash
 # Wait for application to start (30-60 seconds)
 # Check health
-curl http://localhost:8080/actuator/health
+curl http://localhost:8081/actuator/health
 
 # Expected output: {"status":"UP"}
 ```
@@ -301,7 +318,7 @@ limit_req_zone $binary_remote_addr zone=api_limit:10m rate=30r/m;
 
 # Upstream backend
 upstream allergypassport_backend {
-    server localhost:8080;
+    server localhost:8081;
     keepalive 32;
 }
 
@@ -715,11 +732,36 @@ docker compose exec postgres psql -U allergypassport -d allergypassport -c "SELE
 # Check logs
 docker compose logs app
 
-# Check if port 8080 is available
-sudo netstat -tulpn | grep 8080
+# Check if port 8081 is available
+sudo netstat -tulpn | grep 8081
 
 # Restart services
 docker compose restart
+```
+
+### Port Conflict Errors
+
+If you see an error like "address already in use" when starting Docker:
+
+```bash
+# Error: failed to bind host port 0.0.0.0:8081/tcp: address already in use
+
+# Find what's using port 8081
+sudo ss -tulpn | grep :8081
+# or
+sudo lsof -i :8081
+
+# Option 1: Stop the conflicting process
+sudo kill <PID>
+
+# Option 2: Change Docker port in docker-compose.yml
+# Edit the ports section under 'app' service:
+#   ports:
+#     - "8082:8080"  # Use a different external port
+# Then update Nginx config to proxy to localhost:8082
+
+# Option 3: Use only Docker network (no external port)
+# Remove the ports mapping and access via Nginx only
 ```
 
 ### Database Connection Issues
@@ -773,6 +815,72 @@ grep GOOGLE_CLOUD_PROJECT_ID ~/allergypassport/.env
 # Check API quota
 # Go to Google Cloud Console → APIs & Services → Dashboard
 ```
+
+### OAuth/Login Errors
+
+If Google login fails with redirect_uri_mismatch or similar errors:
+
+```bash
+# 1. Verify APP_BASE_URL uses HTTPS
+grep APP_BASE_URL ~/allergypassport/.env
+# Should show: APP_BASE_URL=https://yourdomain.com (NOT http://)
+
+# 2. Check application logs for OAuth errors
+docker compose logs app | grep -i oauth
+
+# 3. Verify redirect URI in Google Cloud Console matches exactly:
+# Go to: https://console.cloud.google.com/apis/credentials
+# Authorized redirect URIs should be:
+#   https://yourdomain.com/login/oauth2/code/google
+#   https://www.yourdomain.com/login/oauth2/code/google
+# NOT:
+#   http://yourdomain.com/login/oauth2/code/google (incorrect - HTTP)
+#   http://localhost:8081/login/oauth2/code/google (development only)
+
+# 4. After fixing .env, restart the application
+docker compose restart app
+
+# 5. Test OAuth flow
+# Visit https://yourdomain.com and click login
+```
+
+**Common OAuth Issues**:
+- ❌ `redirect_uri_mismatch`: Redirect URI in Google Console doesn't match `APP_BASE_URL`
+- ❌ Using HTTP instead of HTTPS in production
+- ❌ Mismatch between `www` and non-`www` versions
+- ❌ Trailing slash differences (e.g., `/` at the end)
+- ❌ Application sending HTTP redirect URIs even though using HTTPS (reverse proxy header issue)
+
+**If OAuth still sends HTTP redirect URIs after setting HTTPS in .env**:
+
+This means the application isn't detecting it's behind an HTTPS reverse proxy. The fix:
+
+1. The application.properties file must include reverse proxy configuration:
+   ```properties
+   server.forward-headers-strategy=framework
+   server.tomcat.remoteip.protocol-header=x-forwarded-proto
+   ```
+
+2. Nginx must send X-Forwarded-Proto header (already configured in the guide):
+   ```nginx
+   proxy_set_header X-Forwarded-Proto $scheme;
+   ```
+
+3. Rebuild and redeploy the application:
+   ```bash
+   cd ~/allergypassport
+   docker compose down
+   docker compose build --no-cache
+   docker compose up -d
+   ```
+
+4. Verify the fix:
+   ```bash
+   # Check application logs for the redirect URI being generated
+   docker compose logs app | grep -i "redirect"
+
+   # The redirect URI should now use https:// not http://
+   ```
 
 ### View Application Health
 
@@ -875,7 +983,7 @@ docker compose restart app
 ./backup-database.sh
 
 # Check health
-curl http://localhost:8080/actuator/health
+curl http://localhost:8081/actuator/health
 
 # View Nginx logs
 sudo tail -f /var/log/nginx/allergypassport_access.log
