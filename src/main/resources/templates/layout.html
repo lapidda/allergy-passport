@@ -5,7 +5,7 @@
 <head th:fragment="head">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${title != null ? title + ' | ' : ''} + #{app.name}">Allergy Passport</title>
+    <title th:text="${title != null ? title + ' | ' : ''} + 'Allergy Passport'">Allergy Passport</title>
     
     <!-- Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -94,7 +94,7 @@
                 <div class="flex items-center">
                     <a href="/" class="flex items-center space-x-2">
                         <span class="text-2xl">🛡️</span>
-                        <span class="font-bold text-xl text-gray-900" th:text="#{app.name}">Allergy Passport</span>
+                        <span class="font-bold text-xl text-gray-900">Allergy Passport</span>
                     </a>
                 </div>
                 

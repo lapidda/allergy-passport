@@ -246,10 +246,15 @@ Copy the Client ID and Client Secret to your `.env` file.
 # On your local machine, upload the key to the server
 scp translation-key.json allergypassport@your-server-ip:~/allergypassport/
 
-# On the server, secure the file
+# On the server, set proper permissions for Docker
 cd ~/allergypassport
-chmod 600 translation-key.json
+chmod 644 translation-key.json
 ```
+
+**Important**:
+- The file needs `644` permissions (not `600`) so the Docker container can read it
+- The Docker container runs as a non-root user and needs read access to the mounted file
+- `644` allows the owner to write and everyone to read (safe for this use case)
 
 ### 4. Update docker-compose.yml
 
@@ -805,15 +810,42 @@ docker compose restart app
 
 ### Translation API Errors
 
+If you see "Permission denied" for `/app/config/translation-key.json`:
+
 ```bash
-# Check Google Cloud credentials
+# Error: /app/config/translation-key.json (Permission denied)
+
+# Fix file permissions on the host
+cd ~/allergypassport
+chmod 644 translation-key.json
+
+# Verify permissions
+ls -la translation-key.json
+# Should show: -rw-r--r-- (644)
+
+# Rebuild and restart the containers
+docker compose down
+docker compose build --no-cache
+docker compose up -d
+```
+
+Other translation API issues:
+
+```bash
+# Check Google Cloud credentials file exists
 cat ~/allergypassport/translation-key.json
 
-# Verify project ID
+# Verify project ID in .env
 grep GOOGLE_CLOUD_PROJECT_ID ~/allergypassport/.env
 
-# Check API quota
-# Go to Google Cloud Console → APIs & Services → Dashboard
+# Check API is enabled in Google Cloud Console
+# Go to: APIs & Services → Dashboard → Cloud Translation API
+
+# Check API quota and usage
+# Go to: APIs & Services → Dashboard → Quotas
+
+# View translation-related logs
+docker compose logs app | grep -i translation
 ```
 
 ### OAuth/Login Errors

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="#{passport.title} + ' - ' + ${user.displayName}">Allergy Passport</title>
+    <title th:text="'Allergy Passport - ' + ${user.displayName}">Allergy Passport</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -47,7 +47,7 @@
         <div class="max-w-2xl mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center space-x-2">
                 <span class="text-xl">🛡️</span>
-                <span class="font-semibold text-gray-900" th:text="#{passport.title}">Allergy Passport</span>
+                <span class="font-semibold text-gray-900">Allergy Passport</span>
             </div>
             
             <!-- Language Flags -->
@@ -161,9 +161,12 @@
 
         <!-- Footer -->
         <div class="mt-8 text-center">
-            <p class="text-sm text-gray-400" th:text="#{passport.powered.by}">Powered by Allergy Passport</p>
+            <p class="text-sm text-gray-400">
+                <span th:text="#{passport.powered.by}">Powered by</span>
+                <span> Allergy Passport</span>
+            </p>
             <a href="/" class="mt-2 inline-flex items-center text-sm text-primary-600 hover:text-primary-700">
-                Create your own free passport
+                <span th:text="#{passport.create.own}">Create your own free passport</span>
                 <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                 </svg>
