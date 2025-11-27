@@ -21,60 +21,39 @@
     </script>
 </head>
 <body class="bg-beige-50 min-h-screen">
-    <!-- Navigation -->
-    <nav class="bg-beige-100 shadow-sm border-b border-beige-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <a href="/" class="flex items-center space-x-2">
-                        <span class="text-2xl">🛡️</span>
-                        <span class="font-bold text-xl text-gray-900">Allergy Passport</span>
-                    </a>
-                </div>
-                <div class="flex items-center space-x-4">
-                    <a href="/dashboard" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium" th:text="#{nav.dashboard}">Dashboard</a>
-                    <a href="/profile" class="text-primary-600 font-medium px-3 py-2 rounded-md text-sm" th:text="#{nav.profile}">Profile</a>
-                    <div class="border-l border-gray-200 h-6"></div>
-                    <th:block th:replace="~{fragments/language-switcher :: languageSwitcher}"/>
-                    <div class="border-l border-gray-200 h-6"></div>
-                    <form th:action="@{/logout}" method="post" class="inline">
-                        <button type="submit" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium" th:text="#{nav.logout}">Logout</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <!-- Navigation from layout -->
+    <div th:replace="~{layout :: nav}"></div>
 
-    <main class="max-w-3xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-        <h1 class="text-3xl font-bold text-gray-900 mb-8" th:text="#{profile.title}">Profile Settings</h1>
+    <main class="max-w-3xl mx-auto py-6 px-4 sm:py-8 sm:px-6 lg:px-8">
+        <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 sm:mb-8" th:text="#{profile.title}">Profile Settings</h1>
 
         <div class="bg-white shadow rounded-lg divide-y divide-gray-200">
             <!-- Profile Picture Section -->
-            <div class="p-6">
-                <h2 class="text-lg font-semibold text-gray-900 mb-4" th:text="#{profile.picture}">Profile Picture</h2>
-                
-                <div id="profile-picture-section" class="flex items-center space-x-6">
+            <div class="p-4 sm:p-6">
+                <h2 class="text-base sm:text-lg font-semibold text-gray-900 mb-4" th:text="#{profile.picture}">Profile Picture</h2>
+
+                <div id="profile-picture-section" class="flex flex-col sm:flex-row items-center sm:space-x-6 space-y-4 sm:space-y-0">
                     <!-- Current Picture -->
                     <div class="shrink-0">
                         <img th:if="${user.hasCustomProfilePicture()}"
                              th:src="@{/profile-picture/{id}(id=${user.publicId})}"
-                             class="h-24 w-24 object-cover rounded-full border-4 border-gray-200"
+                             class="h-20 w-20 sm:h-24 sm:w-24 object-cover rounded-full border-4 border-gray-200"
                              alt="Profile picture"/>
                         <img th:unless="${user.hasCustomProfilePicture()}"
                              th:src="${user.googlePictureUrl} ?: 'https://ui-avatars.com/api/?name=' + ${user.displayName} + '&background=3b82f6&color=fff&size=96'"
-                             class="h-24 w-24 object-cover rounded-full border-4 border-gray-200"
+                             class="h-20 w-20 sm:h-24 sm:w-24 object-cover rounded-full border-4 border-gray-200"
                              alt="Profile picture"/>
                     </div>
-                    
+
                     <!-- Upload Form -->
-                    <div class="flex-1">
-                        <form hx-post="/api/profile/picture" 
+                    <div class="flex-1 w-full">
+                        <form hx-post="/api/profile/picture"
                               hx-encoding="multipart/form-data"
                               hx-target="#profile-picture-section"
                               hx-swap="innerHTML"
-                              class="flex items-center space-x-4">
-                            <input type="file" 
-                                   name="picture" 
+                              class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
+                            <input type="file"
+                                   name="picture"
                                    accept="image/*"
                                    class="block w-full text-sm text-gray-500
                                           file:mr-4 file:py-2 file:px-4
@@ -83,10 +62,10 @@
                                           file:bg-primary-50 file:text-primary-700
                                           hover:file:bg-primary-100"/>
                             <button type="submit"
-                                    class="px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-primary-600 hover:bg-primary-700"
+                                    class="w-full sm:w-auto px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 transition-colors"
                                     th:text="#{profile.picture.upload}">Upload</button>
                         </form>
-                        
+
                         <div th:if="${user.hasCustomProfilePicture()}" class="mt-3">
                             <button hx-delete="/api/profile/picture"
                                     hx-target="#profile-picture-section"
@@ -100,13 +79,13 @@
             </div>
 
             <!-- Profile Info Section -->
-            <div class="p-6">
-                <h2 class="text-lg font-semibold text-gray-900 mb-4" th:text="#{profile.info}">Profile Information</h2>
-                
-                <form hx-post="/api/profile" 
+            <div class="p-4 sm:p-6">
+                <h2 class="text-base sm:text-lg font-semibold text-gray-900 mb-4" th:text="#{profile.info}">Profile Information</h2>
+
+                <form hx-post="/api/profile"
                       hx-target="#profile-form-messages"
                       hx-swap="innerHTML"
-                      class="space-y-6">
+                      class="space-y-4 sm:space-y-6">
                     
                     <!-- Messages Container -->
                     <div id="profile-form-messages"></div>
@@ -161,9 +140,9 @@
                     </div>
 
                     <!-- Submit Button -->
-                    <div class="flex justify-end">
+                    <div class="flex justify-end pt-2">
                         <button type="submit"
-                                class="px-6 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-primary-600 hover:bg-primary-700"
+                                class="w-full sm:w-auto px-6 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 transition-colors"
                                 th:text="#{profile.save}">Save Changes</button>
                     </div>
                 </form>

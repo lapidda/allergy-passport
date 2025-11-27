@@ -87,20 +87,20 @@
 </head>
 <body class="bg-beige-50 min-h-screen">
     <!-- Navigation -->
-    <nav class="bg-beige-100 shadow-sm border-b border-beige-200">
+    <nav class="bg-beige-100 shadow-sm border-b border-beige-200" x-data="{ mobileMenuOpen: false }">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <!-- Logo -->
                 <div class="flex items-center">
                     <a href="/" class="flex items-center space-x-2">
                         <span class="text-2xl">🛡️</span>
-                        <span class="font-bold text-xl text-gray-900">Allergy Passport</span>
+                        <span class="font-bold text-sm sm:text-xl text-gray-900">Allergy Passport</span>
                     </a>
                 </div>
-                
-                <!-- Navigation Links -->
-                <div class="flex items-center space-x-4">
-                    <!-- Language Switcher (always visible) -->
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <!-- Language Switcher -->
                     <div class="flex items-center">
                         <th:block th:replace="~{fragments/language-switcher :: languageSwitcher}"/>
                     </div>
@@ -112,7 +112,7 @@
                         <a href="/profile" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
                            th:text="#{nav.profile}">Profile</a>
                         <div class="border-l border-gray-200 h-6"></div>
-                        <span class="text-sm text-gray-500" sec:authentication="principal.displayName">User</span>
+                        <span class="text-sm text-gray-500 hidden lg:inline" sec:authentication="principal.displayName">User</span>
                         <form th:action="@{/logout}" method="post" class="inline">
                             <button type="submit"
                                     class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
@@ -133,9 +133,52 @@
                         </a>
                     </div>
                 </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-gray-600 hover:text-gray-900 p-2">
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path x-show="!mobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                            <path x-show="mobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile menu -->
+            <div x-show="mobileMenuOpen" x-cloak class="md:hidden border-t border-beige-200 py-3">
+                <div class="space-y-2">
+                    <!-- Language Switcher Mobile -->
+                    <div class="px-3 py-2">
+                        <th:block th:replace="~{fragments/language-switcher :: languageSwitcher}"/>
+                    </div>
+
+                    <div sec:authorize="isAuthenticated()" class="space-y-2">
+                        <a href="/dashboard" class="block px-3 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-beige-50 rounded-md"
+                           th:text="#{nav.dashboard}">Dashboard</a>
+                        <a href="/profile" class="block px-3 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-beige-50 rounded-md"
+                           th:text="#{nav.profile}">Profile</a>
+                        <div class="px-3 py-2 text-sm text-gray-500" sec:authentication="principal.displayName">User</div>
+                        <form th:action="@{/logout}" method="post">
+                            <button type="submit" class="w-full text-left px-3 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-beige-50 rounded-md"
+                                    th:text="#{nav.logout}">Logout</button>
+                        </form>
+                    </div>
+
+                    <div sec:authorize="!isAuthenticated()">
+                        <a href="/oauth2/authorization/google"
+                           class="mx-3 mt-2 flex items-center justify-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700">
+                            <span th:text="#{nav.login}">Login with Google</span>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
+
+    <style>
+        [x-cloak] { display: none !important; }
+    </style>
     
     <!-- Main Content -->
     <main>
