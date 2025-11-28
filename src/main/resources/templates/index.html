@@ -183,7 +183,7 @@
     <!-- Footer -->
     <footer class="bg-beige-100">
         <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-            <p class="text-center text-base text-gray-400" th:text="#{footer.copyright(${#dates.year(#dates.createNow())})}">
+            <p class="text-center text-base text-gray-400" th:text="#{footer.copyright(${#strings.toString(#dates.year(#dates.createNow()))})}">
                 © 2025 Allergy Passport. All rights reserved.
             </p>
         </div>
