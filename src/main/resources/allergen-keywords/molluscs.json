@@ -1,0 +1,22 @@
+{
+  "en": ["mollusc", "molluscs", "mollusk", "mollusks", "clam", "clams", "mussel", "mussels", "oyster", "oysters", "scallop", "scallops", "squid", "octopus", "cuttlefish", "snail", "escargot", "abalone", "whelk", "periwinkle"],
+  "de": ["weichtier", "weichtiere", "muschel", "muscheln", "miesmuschel", "auster", "austern", "jakobsmuschel", "tintenfisch", "kalmar", "oktopus", "schnecke", "weinbergschnecke", "abalone", "wellhornschnecke"],
+  "es": ["molusco", "moluscos", "almeja", "almejas", "mejillón", "mejillones", "ostra", "ostras", "vieira", "vieiras", "calamar", "pulpo", "sepia", "caracol", "escargot", "abulón"],
+  "fr": ["mollusque", "mollusques", "palourde", "palourdes", "moule", "moules", "huître", "huîtres", "coquille saint-jacques", "calmar", "poulpe", "seiche", "escargot", "ormeau", "bulot", "bigorneau"],
+  "it": ["mollusco", "molluschi", "vongola", "vongole", "cozza", "cozze", "ostrica", "ostriche", "capasanta", "calamaro", "polpo", "seppia", "lumaca", "chiocciola", "abalone"],
+  "pt": ["molusco", "moluscos", "amêijoa", "amêijoas", "mexilhão", "mexilhões", "ostra", "ostras", "vieira", "lula", "polvo", "choco", "caracol", "abalone"],
+  "nl": ["weekdier", "weekdieren", "mossel", "mosselen", "oester", "oesters", "sint-jakobsschelp", "inktvis", "octopus", "pijlinktvis", "slak", "escargot", "abalone"],
+  "ru": ["моллюск", "моллюски", "моллюски", "мидия", "мидии", "устрица", "устрицы", "гребешок", "кальмар", "осьминог", "каракатица", "улитка", "эскарго", "абалон"],
+  "zh": ["软体动物", "蛤", "蛤蜊", "贻贝", "牡蛎", "扇贝", "鱿鱼", "章鱼", "墨鱼", "蜗牛", "法国蜗牛", "鲍鱼"],
+  "ja": ["軟体動物", "貝", "はまぐり", "ムール貝", "牡蠣", "カキ", "ホタテ", "帆立貝", "イカ", "タコ", "甲イカ", "エスカルゴ", "アワビ"],
+  "ko": ["연체동물", "조개", "홍합", "굴", "가리비", "오징어", "문어", "갑오징어", "달팽이", "에스카르고", "전복"],
+  "ar": ["رخويات", "محار", "بلح البحر", "محار الصدف", "حبار", "أخطبوط", "حبار صغير", "حلزون", "أذن البحر"],
+  "tr": ["yumuşakça", "yumuşakçalar", "midye", "istiridye", "tarak", "kalamar", "ahtapot", "mürekkep balığı", "salyangoz", "eskargo", "denizkulağı"],
+  "pl": ["mięczak", "mięczaki", "małż", "małże", "omułek", "ostryga", "przegrzebek", "kałamarnica", "ośmiornica", "mątwa", "ślimak", "escargot", "słuchotka"],
+  "sv": ["blötdjur", "musslor", "mussla", "ostron", "pilgrimsmussla", "bläckfisk", "tioarmad bläckfisk", "sepia", "snigel", "escargot", "havsöra"],
+  "da": ["bløddyr", "muslinger", "musling", "østers", "kammusling", "blæksprutte", "ottearmet blæksprutte", "sepia", "snegl", "escargot", "søøre"],
+  "no": ["bløtdyr", "muslinger", "musling", "østers", "kamskjell", "blekksprut", "akkar", "sepia", "snegl", "escargot", "sjøøre"],
+  "fi": ["nilviäinen", "nilviäiset", "simpukka", "simpukat", "sinisimpukka", "osteri", "kampasimpukka", "mustekala", "seepia", "etana", "escargot", "merikorva"],
+  "el": ["μαλάκιο", "μαλάκια", "μύδι", "μύδια", "στρείδι", "στρείδια", "χτένι", "καλαμάρι", "χταπόδι", "σουπιά", "σαλιγκάρι", "εσκαργκό", "αφαλός"],
+  "hi": ["मोलस्क", "क्लैम", "मसल्स", "सीप", "स्कैलप", "स्क्विड", "ऑक्टोपस", "कटलफिश", "घोंघा", "एबालोन"]
+}

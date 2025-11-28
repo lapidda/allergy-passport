@@ -1,0 +1,22 @@
+{
+  "en": ["lupin", "lupine", "lupini", "lupini bean", "lupini beans", "lupin flour", "lupin seed"],
+  "de": ["lupine", "lupinen", "lupinenmehl", "lupinensamen"],
+  "es": ["altramuz", "altramuces", "lupino", "harina de altramuz"],
+  "fr": ["lupin", "lupins", "farine de lupin", "graine de lupin"],
+  "it": ["lupino", "lupini", "farina di lupini", "semi di lupino"],
+  "pt": ["tremoço", "tremoços", "farinha de tremoço", "semente de tremoço"],
+  "nl": ["lupine", "lupinen", "lupinemeel", "lupinezaad"],
+  "ru": ["люпин", "люпины", "мука из люпина", "семена люпина"],
+  "zh": ["羽扇豆", "卢平豆", "羽扇豆粉", "羽扇豆籽"],
+  "ja": ["ルピナス", "ルピナス豆", "ルピナス粉", "ルピナスの種"],
+  "ko": ["루핀", "루핀콩", "루핀 가루", "루핀 씨앗"],
+  "ar": ["ترمس", "دقيق الترمس", "بذور الترمس"],
+  "tr": ["acı bakla", "lupin", "lupin unu", "lupin tohumu"],
+  "pl": ["łubin", "łubiny", "mąka z łubinu", "nasiona łubinu"],
+  "sv": ["lupin", "lupiner", "lupinmjöl", "lupinfrön"],
+  "da": ["lupin", "lupiner", "lupinmel", "lupinfrø"],
+  "no": ["lupin", "lupiner", "lupinmel", "lupinfrø"],
+  "fi": ["lupiini", "lupiinit", "lupiinijauho", "lupiinin siemen"],
+  "el": ["λούπινο", "λούπινα", "αλεύρι λούπινου", "σπόροι λούπινου"],
+  "hi": ["ल्यूपिन", "ल्यूपिन बीन", "ल्यूपिन आटा"]
+}

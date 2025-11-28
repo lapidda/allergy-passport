@@ -2,10 +2,12 @@ package com.allergypassport.controller;
 
 import com.allergypassport.dto.AllergyRequest;
 import com.allergypassport.dto.ProfileRequest;
+import com.allergypassport.dto.ScanResult;
 import com.allergypassport.entity.AllergySeverity;
 import com.allergypassport.entity.AllergyType;
 import com.allergypassport.entity.User;
 import com.allergypassport.entity.UserAllergy;
+import com.allergypassport.service.AllergenScannerService;
 import com.allergypassport.service.CustomOAuth2User;
 import com.allergypassport.service.UserService;
 import com.allergypassport.util.QRCodeService;
@@ -13,6 +15,7 @@ import com.google.zxing.WriterException;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,7 +26,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Controller for HTMX-powered interactions and API endpoints.
@@ -37,10 +42,14 @@ public class AllergyController {
 
     private final UserService userService;
     private final QRCodeService qrCodeService;
+    private final AllergenScannerService scannerService;
 
-    public AllergyController(UserService userService, QRCodeService qrCodeService) {
+    public AllergyController(UserService userService,
+                            QRCodeService qrCodeService,
+                            @Autowired(required = false) AllergenScannerService scannerService) {
         this.userService = userService;
         this.qrCodeService = qrCodeService;
+        this.scannerService = scannerService;
     }
 
     // ==================== ALLERGY MANAGEMENT ====================
@@ -237,6 +246,80 @@ public class AllergyController {
         } catch (WriterException | IOException e) {
             log.error("Failed to generate QR code for user {}", principal.getUserId(), e);
             return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    // ==================== ALLERGEN SCANNER ====================
+
+    /**
+     * Scan an image for allergens using OCR (HTMX form submission).
+     * Returns scan results fragment with detected allergens.
+     */
+    @PostMapping("/scan-allergens")
+    public String scanAllergens(@AuthenticationPrincipal CustomOAuth2User principal,
+                                @RequestParam("image") MultipartFile file,
+                                Model model) {
+        try {
+            // Check if scanner is available
+            if (scannerService == null) {
+                model.addAttribute("error", "Allergen scanner is not configured on this server");
+                return "fragments/scan-result :: scanError";
+            }
+
+            // Validate file
+            if (file.isEmpty()) {
+                model.addAttribute("error", "Please select an image to scan");
+                return "fragments/scan-result :: scanError";
+            }
+
+            String contentType = file.getContentType();
+            if (contentType == null || !contentType.startsWith("image/")) {
+                model.addAttribute("error", "File must be an image (JPEG, PNG, or WebP)");
+                return "fragments/scan-result :: scanError";
+            }
+
+            // Check file size (max 10MB)
+            long maxSize = 10 * 1024 * 1024; // 10MB
+            if (file.getSize() > maxSize) {
+                model.addAttribute("error", "Image size must be less than 10MB");
+                return "fragments/scan-result :: scanError";
+            }
+
+            log.info("User {} scanning image: {} ({} bytes, type: {})",
+                    principal.getUserId(), file.getOriginalFilename(), file.getSize(), contentType);
+
+            // Get user's allergies
+            List<UserAllergy> userAllergies = userService.getUserAllergies(principal.getUserId());
+            if (userAllergies == null || userAllergies.isEmpty()) {
+                model.addAttribute("error", "You need to register at least one allergy before using the scanner");
+                return "fragments/scan-result :: scanError";
+            }
+
+            // Perform scan
+            byte[] imageData = file.getBytes();
+            Set<UserAllergy> allergySet = new HashSet<>(userAllergies);
+            ScanResult scanResult = scannerService.scanForAllergens(imageData, allergySet);
+
+            // Add result to model
+            model.addAttribute("scanResult", scanResult);
+
+            log.info("Scan completed for user {}: {} allergen(s) detected",
+                    principal.getUserId(), scanResult.detections().size());
+
+            return "fragments/scan-result :: scanSuccess";
+
+        } catch (IllegalStateException e) {
+            log.error("Scanner not configured: {}", e.getMessage());
+            model.addAttribute("error", "Scanner is not properly configured. Please contact support.");
+            return "fragments/scan-result :: scanError";
+        } catch (IOException e) {
+            log.error("Failed to read image file for user {}", principal.getUserId(), e);
+            model.addAttribute("error", "Failed to read image file");
+            return "fragments/scan-result :: scanError";
+        } catch (Exception e) {
+            log.error("Failed to scan image for user {}", principal.getUserId(), e);
+            model.addAttribute("error", "Scanning failed: " + e.getMessage());
+            return "fragments/scan-result :: scanError";
         }
     }
 }

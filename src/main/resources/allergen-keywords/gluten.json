@@ -1,0 +1,22 @@
+{
+  "en": ["gluten", "wheat protein", "gliadin", "glutenin", "contains gluten"],
+  "de": ["gluten", "klebereiweiß", "weizenprotein", "enthält gluten"],
+  "es": ["gluten", "proteína de trigo", "contiene gluten"],
+  "fr": ["gluten", "protéine de blé", "contient du gluten"],
+  "it": ["glutine", "proteina del grano", "contiene glutine"],
+  "pt": ["glúten", "proteína de trigo", "contém glúten"],
+  "nl": ["gluten", "tarwe-eiwit", "bevat gluten"],
+  "ru": ["глютен", "клейковина", "пшеничный белок", "содержит глютен"],
+  "zh": ["麸质", "面筋", "小麦蛋白", "含麸质"],
+  "ja": ["グルテン", "小麦タンパク", "グルテン含有"],
+  "ko": ["글루텐", "밀 단백질", "글루텐 함유"],
+  "ar": ["جلوتين", "بروتين القمح", "يحتوي على جلوتين"],
+  "tr": ["glüten", "buğday proteini", "glüten içerir"],
+  "pl": ["gluten", "białko pszenicy", "zawiera gluten"],
+  "sv": ["gluten", "veteprotein", "innehåller gluten"],
+  "da": ["gluten", "hvedeprotein", "indeholder gluten"],
+  "no": ["gluten", "hveteprotein", "inneholder gluten"],
+  "fi": ["gluteeni", "vehnäproteiini", "sisältää gluteenia"],
+  "el": ["γλουτένη", "πρωτεΐνη σίτου", "περιέχει γλουτένη"],
+  "hi": ["ग्लूटेन", "गेहूं प्रोटीन", "ग्लूटेन युक्त"]
+}

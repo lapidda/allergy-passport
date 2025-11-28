@@ -1,0 +1,22 @@
+{
+  "en": ["peanut", "peanuts", "groundnut", "groundnuts", "arachis", "cacahuete", "monkey nut", "earth nut"],
+  "de": ["erdnuss", "erdnüsse", "erdnuß", "erdnüssen"],
+  "es": ["cacahuete", "cacahuetes", "maní", "cacahuate"],
+  "fr": ["arachide", "arachides", "cacahuète", "cacahuètes", "cacahouète"],
+  "it": ["arachide", "arachidi", "noccioline americane"],
+  "pt": ["amendoim", "amendoins"],
+  "nl": ["pinda", "pindas", "aardnoot"],
+  "ru": ["арахис"],
+  "zh": ["花生", "落花生"],
+  "ja": ["ピーナッツ", "落花生", "らっかせい"],
+  "ko": ["땅콩"],
+  "ar": ["فول سوداني", "الفول السوداني"],
+  "tr": ["yer fıstığı", "yerfıstığı"],
+  "pl": ["orzech ziemny", "orzeszki ziemne", "fistaszek"],
+  "sv": ["jordnöt", "jordnötter"],
+  "da": ["jordnød", "jordnødder"],
+  "no": ["peanøtt", "peanøtter", "jordnøtt"],
+  "fi": ["maapähkinä", "maapähkinät"],
+  "el": ["φιστίκι αράπικα", "αραχίδα", "αραχίδες"],
+  "hi": ["मूंगफली"]
+}

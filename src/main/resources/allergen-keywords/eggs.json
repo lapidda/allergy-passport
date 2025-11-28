@@ -1,0 +1,22 @@
+{
+  "en": ["egg", "eggs", "egg white", "egg yolk", "albumen", "yolk", "mayonnaise", "meringue", "ovalbumin", "ovomucoid"],
+  "de": ["ei", "eier", "eiweiß", "eigelb", "albumin", "dotter", "mayonnaise", "baiser", "ovalbumin"],
+  "es": ["huevo", "huevos", "clara de huevo", "yema", "albúmina", "mayonesa", "merengue", "ovoalbúmina"],
+  "fr": ["œuf", "oeufs", "blanc d'œuf", "jaune d'œuf", "albumine", "mayonnaise", "meringue", "ovalbumine"],
+  "it": ["uovo", "uova", "albume", "tuorlo", "albumina", "maionese", "meringa", "ovalbumina"],
+  "pt": ["ovo", "ovos", "clara de ovo", "gema", "albumina", "maionese", "merengue", "ovalbumina"],
+  "nl": ["ei", "eieren", "eiwit", "eigeel", "albumine", "mayonaise", "schuim", "ovalbumine"],
+  "ru": ["яйцо", "яйца", "яичный белок", "желток", "альбумин", "майонез", "безе", "овальбумин"],
+  "zh": ["蛋", "鸡蛋", "蛋白", "蛋黄", "白蛋白", "蛋黄酱", "蛋白霜", "卵白蛋白"],
+  "ja": ["卵", "たまご", "卵白", "卵黄", "アルブミン", "マヨネーズ", "メレンゲ", "オボアルブミン"],
+  "ko": ["계란", "달걀", "흰자", "노른자", "알부민", "마요네즈", "머랭", "오브알부민"],
+  "ar": ["بيض", "بياض البيض", "صفار", "ألبومين", "مايونيز", "مرينغ"],
+  "tr": ["yumurta", "yumurtalar", "yumurta akı", "sarısı", "albümin", "mayonez", "beze"],
+  "pl": ["jajko", "jaja", "białko jaja", "żółtko", "albumina", "majonez", "beza", "owoalbumina"],
+  "sv": ["ägg", "äggvita", "äggula", "albumin", "majonnäs", "maräng", "ovalbumin"],
+  "da": ["æg", "æggehvide", "æggeblomme", "albumin", "mayonnaise", "marengs", "ovalbumin"],
+  "no": ["egg", "eggehvite", "eggeplomme", "albumin", "majones", "marengs", "ovalbumin"],
+  "fi": ["muna", "munat", "munanvalkuainen", "keltuainen", "albumiini", "majoneesi", "marenki", "ovalbumiini"],
+  "el": ["αυγό", "αυγά", "ασπράδι", "κρόκος", "λευκωματίνη", "μαγιονέζα", "μαρέγκα", "οβαλβουμίνη"],
+  "hi": ["अंडा", "अंडे", "अंडे की सफेदी", "जर्दी", "एल्ब्यूमिन", "मेयोनेज़", "मेरिंग"]
+}

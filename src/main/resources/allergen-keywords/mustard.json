@@ -1,0 +1,22 @@
+{
+  "en": ["mustard", "mustard seed", "mustard seeds", "dijon", "whole grain mustard", "yellow mustard", "brown mustard"],
+  "de": ["senf", "senfsaat", "senfkörner", "dijon-senf", "grobkörniger senf"],
+  "es": ["mostaza", "semilla de mostaza", "semillas de mostaza", "dijon", "mostaza en grano"],
+  "fr": ["moutarde", "graine de moutarde", "graines de moutarde", "dijon", "moutarde à l'ancienne"],
+  "it": ["senape", "semi di senape", "dijon", "senape in grani"],
+  "pt": ["mostarda", "semente de mostarda", "sementes de mostarda", "dijon", "mostarda em grão"],
+  "nl": ["mosterd", "mosterdzaad", "mosterdzaden", "dijon", "grove mosterd"],
+  "ru": ["горчица", "семена горчицы", "дижонская горчица", "зерновая горчица"],
+  "zh": ["芥末", "芥菜籽", "第戎芥末", "全麦芥末"],
+  "ja": ["マスタード", "からし", "芥子", "粒マスタード", "ディジョンマスタード"],
+  "ko": ["겨자", "머스타드", "디종 머스타드", "통겨자"],
+  "ar": ["خردل", "بذور الخردل", "ديجون"],
+  "tr": ["hardal", "hardal tohumu", "dijon hardal"],
+  "pl": ["gorczyca", "nasiona gorczycy", "dijon", "gruboziarnista gorczyca"],
+  "sv": ["senap", "senapsfrön", "dijon", "grovkornig senap"],
+  "da": ["sennep", "sennepsfrø", "dijon", "grovkornet sennep"],
+  "no": ["sennep", "sennepsfrø", "dijon", "grovkorna sennep"],
+  "fi": ["sinappi", "sinapinsiemen", "dijon", "karkeajauhoi nen sinappi"],
+  "el": ["μουστάρδα", "σπόροι μουστάρδας", "ντιζόν"],
+  "hi": ["सरसों", "सरसों के बीज", "डिजॉन"]
+}

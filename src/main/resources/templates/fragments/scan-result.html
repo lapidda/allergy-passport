@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Scan Result Fragment</title>
+</head>
+<body>
+
+<!-- Scan Error Fragment -->
+<div th:fragment="scanError" class="p-6 text-center">
+    <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-red-100 mb-4">
+        <svg class="h-10 w-10 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+    </div>
+    <h3 class="text-lg font-medium text-gray-900 mb-2">Scan Failed</h3>
+    <p class="text-sm text-gray-600 mb-6" th:text="${error}">An error occurred</p>
+    <button type="button"
+            onclick="document.getElementById('scanner-modal').classList.add('hidden')"
+            class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700">
+        Close
+    </button>
+</div>
+
+<!-- Scan Success Fragment -->
+<div th:fragment="scanSuccess" class="p-6">
+    <!-- No Allergens Detected -->
+    <div th:if="${!scanResult.allergensFound}" class="text-center">
+        <div class="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-green-100 mb-4">
+            <svg class="h-12 w-12 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+        </div>
+        <h3 class="text-xl font-bold text-gray-900 mb-2" th:text="#{scanner.result.none.title}">No Allergens Detected</h3>
+        <p class="text-sm text-gray-600 mb-4" th:text="#{scanner.result.none.desc}">
+            The scan did not find any of your registered allergens in this image.
+        </p>
+        <p class="text-xs text-gray-500 mb-6">
+            <span th:text="#{scanner.result.language}">Detected language</span>:
+            <span class="font-medium" th:text="${scanResult.detectedLanguage}">en</span>
+        </p>
+    </div>
+
+    <!-- Allergens Detected -->
+    <div th:if="${scanResult.allergensFound}" class="text-center">
+        <div class="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-red-100 mb-4">
+            <svg class="h-12 w-12 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+        </div>
+        <h3 class="text-xl font-bold text-red-900 mb-2" th:text="#{scanner.result.found.title}">Allergens Detected!</h3>
+        <p class="text-sm text-gray-600 mb-4" th:text="#{scanner.result.found.desc}">
+            The following allergens from your profile were found:
+        </p>
+
+        <!-- Detected Allergens List -->
+        <div class="space-y-3 mb-6">
+            <div th:each="detection : ${scanResult.detections}"
+                 class="bg-red-50 border-l-4 border-red-400 p-4 rounded-r">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0">
+                        <span class="text-2xl" th:text="${detection.allergyType.emoji}">🥜</span>
+                    </div>
+                    <div class="ml-3 text-left flex-1">
+                        <p class="text-sm font-medium text-red-900">
+                            <span th:text="${detection.allergyType.emoji}">🥜</span>
+                            <span th:text="#{${detection.allergyType.messageKey}}">Peanuts</span>
+                        </p>
+                        <p class="text-xs text-red-700 mt-1">
+                            <span th:text="#{scanner.result.matched.keyword}">Matched keyword</span>:
+                            "<span th:text="${detection.matchedKeyword}" class="font-semibold">peanut</span>"
+                        </p>
+                        <div class="mt-2">
+                            <span th:if="${detection.userSeverity.name() == 'SEVERE'}"
+                                  class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-600 text-white">
+                                <svg class="mr-1.5 h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                                </svg>
+                                <span th:text="#{severity.severe}">SEVERE</span>
+                            </span>
+                            <span th:if="${detection.userSeverity.name() == 'INTOLERANCE'}"
+                                  class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-600 text-white">
+                                <span th:text="#{severity.intolerance}">Intolerance</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p class="text-xs text-gray-500 mb-4">
+            <span th:text="#{scanner.result.language}">Detected language</span>:
+            <span class="font-medium" th:text="${scanResult.detectedLanguage}">en</span>
+        </p>
+    </div>
+
+    <!-- OCR Text (Expandable Debug Section) -->
+    <div class="mt-6 border-t pt-4" th:if="${scanResult.originalText != null and !scanResult.originalText.isBlank()}">
+        <details class="text-left">
+            <summary class="text-sm font-medium text-gray-700 cursor-pointer hover:text-gray-900">
+                <span th:text="#{scanner.result.view.text}">View OCR Text</span>
+            </summary>
+            <div class="mt-3 p-3 bg-gray-50 rounded text-xs text-gray-600 font-mono whitespace-pre-wrap break-words max-h-48 overflow-y-auto"
+                 th:text="${scanResult.originalText}">
+                Extracted text will appear here
+            </div>
+        </details>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex gap-3 mt-6">
+        <button type="button"
+                onclick="document.getElementById('scan-result').innerHTML = ''; document.getElementById('scanner-form').reset(); document.getElementById('image-preview').classList.add('hidden'); document.getElementById('upload-area').classList.remove('hidden'); document.getElementById('scan-button').disabled = true;"
+                class="flex-1 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
+            <span th:text="#{scanner.result.scan.again}">Scan Again</span>
+        </button>
+        <button type="button"
+                onclick="closeScannerModal();"
+                class="flex-1 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors">
+                Close
+        </button>
+    </div>
+</div>
+
+</body>
+</html>

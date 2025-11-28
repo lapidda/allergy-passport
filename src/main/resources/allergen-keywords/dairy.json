@@ -1,0 +1,22 @@
+{
+  "en": ["milk", "dairy", "lactose", "cream", "butter", "cheese", "yogurt", "yoghurt", "whey", "casein", "caseinate", "curds", "ghee", "half and half", "sour cream"],
+  "de": ["milch", "milchprodukte", "laktose", "sahne", "butter", "käse", "joghurt", "molke", "kasein", "kaseinat", "quark", "ghee", "sauerrahm"],
+  "es": ["leche", "lácteos", "lactosa", "nata", "crema", "mantequilla", "queso", "yogur", "suero", "caseína", "caseinato", "cuajada", "ghee", "crema agria"],
+  "fr": ["lait", "produits laitiers", "lactose", "crème", "beurre", "fromage", "yaourt", "yogourt", "lactosérum", "caséine", "caséinate", "caillé", "ghee", "crème sure"],
+  "it": ["latte", "latticini", "lattosio", "panna", "burro", "formaggio", "yogurt", "siero", "caseina", "caseinato", "cagliata", "ghee", "panna acida"],
+  "pt": ["leite", "laticínios", "lactose", "creme", "nata", "manteiga", "queijo", "iogurte", "soro", "caseína", "caseinato", "coalhada", "ghee", "creme azedo"],
+  "nl": ["melk", "zuivel", "lactose", "room", "boter", "kaas", "yoghurt", "wei", "caseïne", "caseinaat", "wrongel", "ghee", "zure room"],
+  "ru": ["молоко", "молочные продукты", "лактоза", "сливки", "масло", "сыр", "йогурт", "сыворотка", "казеин", "казеинат", "творог", "гхи", "сметана"],
+  "zh": ["牛奶", "乳制品", "乳糖", "奶油", "黄油", "奶酪", "酸奶", "乳清", "酪蛋白", "凝乳", "酥油", "酸奶油"],
+  "ja": ["牛乳", "ミルク", "乳製品", "乳糖", "クリーム", "バター", "チーズ", "ヨーグルト", "ホエイ", "カゼイン", "カード", "ギー", "サワークリーム"],
+  "ko": ["우유", "유제품", "유당", "크림", "버터", "치즈", "요거트", "유청", "카제인", "카드", "기", "사워크림"],
+  "ar": ["حليب", "ألبان", "لاكتوز", "كريمة", "زبدة", "جبن", "زبادي", "مصل اللبن", "كازين", "خثارة", "سمن", "كريمة حامضة"],
+  "tr": ["süt", "süt ürünleri", "laktoz", "krema", "tereyağı", "peynir", "yoğurt", "peynir altı suyu", "kazein", "lor", "ghee", "ekşi krema"],
+  "pl": ["mleko", "nabiał", "laktoza", "śmietana", "masło", "ser", "jogurt", "serwatka", "kazeina", "twaróg", "ghee", "kwaśna śmietana"],
+  "sv": ["mjölk", "mjölkprodukter", "laktos", "grädde", "smör", "ost", "yoghurt", "vassle", "kasein", "ostkaka", "ghee", "gräddfil"],
+  "da": ["mælk", "mejeriprodukter", "laktose", "fløde", "smør", "ost", "yoghurt", "valle", "kasein", "ostemasse", "ghee", "crème fraiche"],
+  "no": ["melk", "meieriprodukter", "laktose", "fløte", "smør", "ost", "yoghurt", "myse", "kasein", "ostemasse", "ghee", "rømme"],
+  "fi": ["maito", "maitotuotteet", "laktoosi", "kerma", "voi", "juusto", "jogurtti", "hera", "kaseiini", "juustohyytelö", "ghee", "hapankerma"],
+  "el": ["γάλα", "γαλακτοκομικά", "λακτόζη", "κρέμα", "βούτυρο", "τυρί", "γιαούρτι", "ορός γάλακτος", "καζεΐνη", "τυρόγαλο", "γκι", "ξινή κρέμα"],
+  "hi": ["दूध", "डेयरी", "लैक्टोज", "क्रीम", "मक्खन", "पनीर", "दही", "मट्ठा", "कैसिइन", "छेना", "घी", "खट्टी क्रीम"]
+}

@@ -1,0 +1,22 @@
+{
+  "en": ["almond", "almonds", "cashew", "cashews", "walnut", "walnuts", "pecan", "pecans", "pistachio", "pistachios", "hazelnut", "hazelnuts", "brazil nut", "brazil nuts", "macadamia", "chestnut", "pine nut", "tree nut", "tree nuts"],
+  "de": ["mandel", "mandeln", "cashew", "cashewnuss", "walnuss", "walnüsse", "pekannuss", "pistazie", "pistazien", "haselnuss", "haselnüsse", "paranuss", "macadamia", "kastanie", "pinienkern", "schalenfrüchte"],
+  "es": ["almendra", "almendras", "anacardo", "nuez", "nueces", "pacana", "pistacho", "avellana", "avellanas", "nuez de brasil", "macadamia", "castaña", "piñón", "frutos de cáscara"],
+  "fr": ["amande", "amandes", "noix de cajou", "cajou", "noix", "pacane", "pistache", "pistaches", "noisette", "noisettes", "noix du brésil", "macadamia", "châtaigne", "pignon", "fruits à coque"],
+  "it": ["mandorla", "mandorle", "anacardo", "noce", "noci", "pecan", "pistacchio", "pistacchi", "nocciola", "nocciole", "noce del brasile", "macadamia", "castagna", "pinolo", "frutta a guscio"],
+  "pt": ["amêndoa", "amêndoas", "caju", "noz", "nozes", "pecã", "pistache", "pistaches", "avelã", "avelãs", "castanha do pará", "macadâmia", "castanha", "pinhão", "frutos de casca rija"],
+  "nl": ["amandel", "amandelen", "cashew", "walnoot", "walnoten", "pecannoot", "pistache", "hazelnoot", "hazelnoten", "paranoot", "macadamia", "kastanje", "pijnboom", "noten"],
+  "ru": ["миндаль", "кешью", "грецкий орех", "пекан", "фисташка", "фундук", "бразильский орех", "макадамия", "каштан", "кедровый орех", "орехи"],
+  "zh": ["杏仁", "腰果", "核桃", "山核桃", "开心果", "榛子", "巴西坚果", "夏威夷果", "栗子", "松子", "坚果"],
+  "ja": ["アーモンド", "カシューナッツ", "くるみ", "ピーカン", "ピスタチオ", "ヘーゼルナッツ", "ブラジルナッツ", "マカダミア", "栗", "松の実", "ナッツ"],
+  "ko": ["아몬드", "캐슈", "호두", "피칸", "피스타치오", "헤이즐넛", "브라질넛", "마카다미아", "밤", "잣", "견과류"],
+  "ar": ["لوز", "كاجو", "جوز", "بيكان", "فستق حلبي", "بندق", "جوز برازيلي", "مكاداميا", "كستناء", "صنوبر", "مكسرات"],
+  "tr": ["badem", "kaju", "ceviz", "pekan", "antep fıstığı", "fındık", "brezilya fıstığı", "makadamya", "kestane", "çam fıstığı", "kabuklu yemiş"],
+  "pl": ["migdał", "nerkowiec", "orzech włoski", "pekan", "pistacja", "orzech laskowy", "orzech brazylijski", "makadamia", "kasztan", "orzech piniowy", "orzechy"],
+  "sv": ["mandel", "cashew", "valnöt", "pekannöt", "pistasch", "hasselnöt", "paranöt", "macadamia", "kastanj", "pinjenöt", "nötter"],
+  "da": ["mandel", "cashew", "valnød", "pekannød", "pistache", "hasselnød", "paranød", "macadamia", "kastanje", "pinjekerne", "nødder"],
+  "no": ["mandel", "cashew", "valnøtt", "pekannøtt", "pistasjnøtt", "hasselnøtt", "paranøtt", "macadamia", "kastanje", "pinjekjerne", "nøtter"],
+  "fi": ["manteli", "cashew", "saksanpähkinä", "pekaanipähkinä", "pistaasi", "hasselpähkinä", "parapähkinä", "macadamia", "kastanja", "pinjepähkinä", "pähkinät"],
+  "el": ["αμύγδαλο", "κάσιους", "καρύδι", "πεκάν", "φιστίκι", "φουντούκι", "βραζιλιάνικο καρύδι", "μακαντέμια", "κάστανο", "κουκούναρι", "ξηροί καρποί"],
+  "hi": ["बादाम", "काजू", "अखरोट", "पिस्ता", "हेज़लनट", "ब्राज़ील नट", "मैकाडामिया", "अखरोट"]
+}

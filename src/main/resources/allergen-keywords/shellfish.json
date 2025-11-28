@@ -1,0 +1,22 @@
+{
+  "en": ["shellfish", "shrimp", "prawn", "prawns", "crab", "lobster", "crayfish", "crawfish", "langoustine", "scampi", "krill", "crustacean", "crustaceans"],
+  "de": ["schalentiere", "krebstiere", "garnele", "garnelen", "shrimp", "krabbe", "hummer", "krebs", "languste", "scampi", "krill"],
+  "es": ["mariscos", "camarón", "camarones", "gamba", "gambas", "cangrejo", "langosta", "cigala", "scampi", "krill", "crustáceos"],
+  "fr": ["crustacés", "crevette", "crevettes", "crabe", "homard", "langouste", "langoustine", "écrevisse", "scampi", "krill"],
+  "it": ["crostacei", "gambero", "gamberetti", "granchio", "aragosta", "astice", "scampo", "scampi", "krill"],
+  "pt": ["crustáceos", "camarão", "camarões", "caranguejo", "lagosta", "lagostim", "scampi", "krill"],
+  "nl": ["schaaldieren", "garnaal", "garnalen", "krab", "kreeft", "langoest", "scampi", "krill"],
+  "ru": ["ракообразные", "креветка", "креветки", "краб", "омар", "лобстер", "лангуст", "рак", "скампи", "криль"],
+  "zh": ["甲壳类", "虾", "对虾", "螃蟹", "龙虾", "小龙虾", "海螯虾", "磷虾"],
+  "ja": ["甲殻類", "エビ", "えび", "カニ", "かに", "ロブスター", "ザリガニ", "スキャンピ", "オキアミ"],
+  "ko": ["갑각류", "새우", "게", "랍스터", "가재", "스캄피", "크릴"],
+  "ar": ["قشريات", "جمبري", "روبيان", "سرطان البحر", "كركند", "جراد البحر", "سكامبي"],
+  "tr": ["kabuklu deniz ürünleri", "karides", "yengeç", "istakoz", "kerevit", "scampi", "kril"],
+  "pl": ["skorupiaki", "krewetka", "krewetki", "krab", "homar", "langusta", "rak", "scampi", "kryl"],
+  "sv": ["skaldjur", "räka", "räkor", "krabba", "hummer", "kräfta", "scampi", "krill"],
+  "da": ["skaldyr", "reje", "rejer", "krabbe", "hummer", "jomfruhummer", "scampi", "krill"],
+  "no": ["skalldyr", "reke", "reker", "krabbe", "hummer", "sjøkreps", "scampi", "krill"],
+  "fi": ["äyriäiset", "katkarapu", "katkaravut", "rapu", "hummeri", "keisarihummeri", "scampi", "krill"],
+  "el": ["οστρακοειδή", "γαρίδα", "γαρίδες", "καβούρι", "αστακός", "καραβίδα", "σκάμπι", "κριλ"],
+  "hi": ["शेलफिश", "झींगा", "केकड़ा", "लॉबस्टर", "झींगा मछली", "स्कैम्पी"]
+}

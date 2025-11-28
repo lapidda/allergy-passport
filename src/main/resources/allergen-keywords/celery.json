@@ -1,0 +1,22 @@
+{
+  "en": ["celery", "celeriac", "celery root", "celery seed", "celery seeds", "celery salt"],
+  "de": ["sellerie", "stangensellerie", "knollensellerie", "selleriesamen", "selleriesalz"],
+  "es": ["apio", "apio nabo", "raíz de apio", "semilla de apio", "sal de apio"],
+  "fr": ["céleri", "céleri-rave", "racine de céleri", "graine de céleri", "sel de céleri"],
+  "it": ["sedano", "sedano rapa", "radice di sedano", "semi di sedano", "sale di sedano"],
+  "pt": ["aipo", "aipo-rábano", "raiz de aipo", "semente de aipo", "sal de aipo"],
+  "nl": ["selderij", "knolselderij", "selderijwortel", "selderijzaad", "selderijzout"],
+  "ru": ["сельдерей", "корень сельдерея", "семена сельдерея", "соль с сельдереем"],
+  "zh": ["芹菜", "根芹", "芹菜根", "芹菜籽", "芹菜盐"],
+  "ja": ["セロリ", "セルリアック", "セロリの根", "セロリシード", "セロリソルト"],
+  "ko": ["셀러리", "셀러리악", "셀러리 뿌리", "셀러리 씨", "셀러리 소금"],
+  "ar": ["كرفس", "جذر الكرفس", "بذور الكرفس", "ملح الكرفس"],
+  "tr": ["kereviz", "kereviz kökü", "kereviz tohumu", "kereviz tuzu"],
+  "pl": ["seler", "seler korzeniowy", "nasiona selera", "sól selerowa"],
+  "sv": ["selleri", "rotselleri", "sellerirot", "sellerifrön", "sellerisalt"],
+  "da": ["selleri", "knoldselleri", "sellerirod", "sellerifrø", "sellerisalt"],
+  "no": ["selleri", "knollselleri", "sellerirot", "sellerifrø", "sellerisalt"],
+  "fi": ["selleri", "juuriselleri", "sellerin juuri", "sellerin siemen", "sellerisuola"],
+  "el": ["σέλινο", "ρίζα σέλινου", "σπόροι σέλινου", "αλάτι σέλινου"],
+  "hi": ["अजमोद", "अजमोद की जड़", "अजमोद के बीज", "अजमोद नमक"]
+}

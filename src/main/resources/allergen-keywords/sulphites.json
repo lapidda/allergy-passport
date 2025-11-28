@@ -1,0 +1,22 @@
+{
+  "en": ["sulphite", "sulphites", "sulfite", "sulfites", "sulphur dioxide", "sulfur dioxide", "sodium bisulphite", "sodium bisulfite", "potassium bisulphite", "e220", "e221", "e222", "e223", "e224", "e225", "e226", "e227", "e228"],
+  "de": ["sulfit", "sulfite", "schwefeldioxid", "natriumdisulfit", "kaliumdisulfit", "e220", "e221", "e222", "e223", "e224", "e225", "e226", "e227", "e228"],
+  "es": ["sulfito", "sulfitos", "dióxido de azufre", "bisulfito de sodio", "bisulfito de potasio", "e220", "e221", "e222", "e223", "e224", "e225", "e226", "e227", "e228"],
+  "fr": ["sulfite", "sulfites", "dioxyde de soufre", "bisulfite de sodium", "bisulfite de potassium", "e220", "e221", "e222", "e223", "e224", "e225", "e226", "e227", "e228"],
+  "it": ["solfito", "solfiti", "anidride solforosa", "bisolfito di sodio", "bisolfito di potassio", "e220", "e221", "e222", "e223", "e224", "e225", "e226", "e227", "e228"],
+  "pt": ["sulfito", "sulfitos", "dióxido de enxofre", "bissulfito de sódio", "bissulfito de potássio", "e220", "e221", "e222", "e223", "e224", "e225", "e226", "e227", "e228"],
+  "nl": ["sulfiet", "sulfieten", "zwaveldioxide", "natriumbisulfiet", "kaliumbisulfiet", "e220", "e221", "e222", "e223", "e224", "e225", "e226", "e227", "e228"],
+  "ru": ["сульфит", "сульфиты", "диоксид серы", "бисульфит натрия", "бисульфит калия", "e220", "e221", "e222", "e223", "e224", "e225", "e226", "e227", "e228"],
+  "zh": ["亚硫酸盐", "二氧化硫", "亚硫酸氢钠", "亚硫酸氢钾", "e220", "e221", "e222", "e223", "e224", "e225", "e226", "e227", "e228"],
+  "ja": ["亜硫酸塩", "二酸化硫黄", "亜硫酸水素ナトリウム", "亜硫酸水素カリウム", "e220", "e221", "e222", "e223", "e224", "e225", "e226", "e227", "e228"],
+  "ko": ["아황산염", "이산화황", "중아황산나트륨", "중아황산칼륨", "e220", "e221", "e222", "e223", "e224", "e225", "e226", "e227", "e228"],
+  "ar": ["كبريتيت", "كبريتات", "ثاني أكسيد الكبريت", "بيكبريتيت الصوديوم", "e220", "e221", "e222", "e223", "e224", "e225", "e226", "e227", "e228"],
+  "tr": ["sülfit", "sülfitler", "kükürt dioksit", "sodyum bisülfit", "potasyum bisülfit", "e220", "e221", "e222", "e223", "e224", "e225", "e226", "e227", "e228"],
+  "pl": ["siarczyn", "siarczyny", "dwutlenek siarki", "wodorosiarczyn sodu", "wodorosiarczyn potasu", "e220", "e221", "e222", "e223", "e224", "e225", "e226", "e227", "e228"],
+  "sv": ["sulfit", "sulfiter", "svaveldioxid", "natriumbisulfit", "kaliumbisulfit", "e220", "e221", "e222", "e223", "e224", "e225", "e226", "e227", "e228"],
+  "da": ["sulfit", "sulfitter", "svovldioxid", "natriumbisulfit", "kaliumbisulfit", "e220", "e221", "e222", "e223", "e224", "e225", "e226", "e227", "e228"],
+  "no": ["sulfitt", "sulfitter", "svoveldioksid", "natriumbisulfitt", "kaliumbisulfitt", "e220", "e221", "e222", "e223", "e224", "e225", "e226", "e227", "e228"],
+  "fi": ["sulfiitti", "sulfiitit", "rikkidioksidi", "natriumbisulfiitti", "kaliumbisulfiitti", "e220", "e221", "e222", "e223", "e224", "e225", "e226", "e227", "e228"],
+  "el": ["θειώδη", "διοξείδιο του θείου", "όξινο θειώδες νάτριο", "e220", "e221", "e222", "e223", "e224", "e225", "e226", "e227", "e228"],
+  "hi": ["सल्फाइट", "सल्फर डाइऑक्साइड", "सोडियम बाइसल्फाइट", "e220", "e221", "e222", "e223", "e224", "e225", "e226", "e227", "e228"]
+}

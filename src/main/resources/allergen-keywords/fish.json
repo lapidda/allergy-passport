@@ -1,0 +1,22 @@
+{
+  "en": ["fish", "salmon", "tuna", "cod", "haddock", "bass", "anchovy", "anchovies", "sardine", "sardines", "mackerel", "trout", "halibut", "tilapia", "catfish", "pollock", "perch", "snapper", "mahi mahi"],
+  "de": ["fisch", "lachs", "thunfisch", "kabeljau", "schellfisch", "barsch", "sardelle", "sardellen", "sardine", "sardinen", "makrele", "forelle", "heilbutt", "tilapia", "wels", "seelachs"],
+  "es": ["pescado", "salmón", "atún", "bacalao", "eglefino", "lubina", "anchoa", "anchoas", "sardina", "sardinas", "caballa", "trucha", "halibut", "tilapia", "perca"],
+  "fr": ["poisson", "saumon", "thon", "morue", "cabillaud", "aiglefin", "bar", "anchois", "sardine", "sardines", "maquereau", "truite", "flétan", "tilapia", "perche"],
+  "it": ["pesce", "salmone", "tonno", "merluzzo", "eglefino", "branzino", "acciuga", "acciughe", "sardina", "sardine", "sgombro", "trota", "halibut", "tilapia", "pesce gatto", "pesce persico"],
+  "pt": ["peixe", "salmão", "atum", "bacalhau", "hadoque", "robalo", "anchova", "anchovas", "sardinha", "sardinhas", "cavala", "truta", "alabote", "tilápia", "perca"],
+  "nl": ["vis", "zalm", "tonijn", "kabeljauw", "schelvis", "baars", "ansjovis", "sardine", "sardines", "makreel", "forel", "heilbot", "tilapia", "meerval"],
+  "ru": ["рыба", "лосось", "тунец", "треска", "пикша", "окунь", "анчоус", "анчоусы", "сардина", "сардины", "скумбрия", "форель", "палтус", "тилапия", "сом"],
+  "zh": ["鱼", "三文鱼", "金枪鱼", "鳕鱼", "黑线鳕", "鲈鱼", "凤尾鱼", "沙丁鱼", "鲭鱼", "鳟鱼", "大比目鱼", "罗非鱼", "鲶鱼"],
+  "ja": ["魚", "鮭", "サーモン", "マグロ", "鱈", "タラ", "バス", "アンチョビ", "イワシ", "鰯", "サバ", "鱒", "オヒョウ", "ティラピア", "ナマズ"],
+  "ko": ["생선", "연어", "참치", "대구", "해덕", "농어", "멸치", "정어리", "고등어", "송어", "넙치", "틸라피아", "메기"],
+  "ar": ["سمك", "سلمون", "تونة", "قد", "حدوق", "قاروص", "أنشوفة", "سردين", "ماكريل", "سلمون مرقط", "هلبوت", "بلطي", "سلور"],
+  "tr": ["balık", "somon", "ton balığı", "morina", "mezgit", "levrek", "hamsi", "sardalya", "uskumru", "alabalık", "pisi balığı", "tilapia", "yayın"],
+  "pl": ["ryba", "łosoś", "tuńczyk", "dorsz", "łupacz", "okoń", "sardela", "sardele", "sardynka", "sardynki", "makrela", "pstrąg", "halibut", "tilapia", "sum"],
+  "sv": ["fisk", "lax", "tonfisk", "torsk", "kolja", "abborre", "ansjovis", "sardin", "sardiner", "makrill", "öring", "hälleflundra", "tilapia", "mal"],
+  "da": ["fisk", "laks", "tun", "torsk", "kuller", "aborre", "ansjos", "sardin", "sardiner", "makrel", "ørred", "helleflynder", "tilapia", "malle"],
+  "no": ["fisk", "laks", "tunfisk", "torsk", "hyse", "abbor", "ansjos", "sardin", "sardiner", "makrell", "ørret", "kveite", "tilapia", "malle"],
+  "fi": ["kala", "lohi", "tonnikala", "turska", "kolja", "ahven", "sardelli", "sardiini", "sardiinit", "makrilli", "taimen", "pallas", "tilapia", "monni"],
+  "el": ["ψάρι", "σολομός", "τόνος", "μπακαλιάρος", "γάδος", "λαβράκι", "αντζούγια", "σαρδέλα", "σαρδέλες", "σκουμπρί", "πέστροφα", "χαλιβούτι", "τιλάπια", "πέρκα"],
+  "hi": ["मछली", "सामन", "टूना", "कॉड", "बास", "एंकोवी", "सार्डिन", "मैकेरल", "ट्राउट", "हलिबट", "तिलापिया"]
+}

@@ -1,0 +1,22 @@
+{
+  "en": ["soy", "soya", "soybean", "soybeans", "tofu", "edamame", "miso", "tempeh", "soy sauce", "soy protein", "soy lecithin", "textured vegetable protein", "tvp"],
+  "de": ["soja", "sojabohne", "sojabohnen", "tofu", "edamame", "miso", "tempeh", "sojasoße", "sojaprotein", "sojalecithin", "texturiertes sojaprotein"],
+  "es": ["soja", "soya", "frijol de soya", "tofu", "edamame", "miso", "tempeh", "salsa de soja", "proteína de soja", "lecitina de soja"],
+  "fr": ["soja", "soya", "fève de soja", "tofu", "edamame", "miso", "tempeh", "sauce soja", "protéine de soja", "lécithine de soja"],
+  "it": ["soia", "semi di soia", "tofu", "edamame", "miso", "tempeh", "salsa di soia", "proteine di soia", "lecitina di soia"],
+  "pt": ["soja", "grão de soja", "tofu", "edamame", "missô", "tempeh", "molho de soja", "proteína de soja", "lecitina de soja"],
+  "nl": ["soja", "sojaboon", "sojabonen", "tofu", "edamame", "miso", "tempeh", "sojasaus", "soja-eiwit", "sojalecithine"],
+  "ru": ["соя", "соевые бобы", "тофу", "эдамаме", "мисо", "темпе", "соевый соус", "соевый белок", "соевый лецитин"],
+  "zh": ["大豆", "黄豆", "豆腐", "毛豆", "味噌", "丹贝", "酱油", "大豆蛋白", "大豆卵磷脂"],
+  "ja": ["大豆", "だいず", "豆腐", "枝豆", "味噌", "テンペ", "醤油", "しょうゆ", "大豆タンパク", "大豆レシチン"],
+  "ko": ["대두", "콩", "두부", "에다마메", "된장", "템페", "간장", "대두 단백질", "대두 레시틴"],
+  "ar": ["صويا", "فول الصويا", "توفو", "إيدامامي", "ميسو", "تمبيه", "صلصة الصويا", "بروتين الصويا", "ليسيثين الصويا"],
+  "tr": ["soya", "soya fasulyesi", "tofu", "edamame", "miso", "tempeh", "soya sosu", "soya proteini", "soya lesitini"],
+  "pl": ["soja", "soya", "nasiona soi", "tofu", "edamame", "miso", "tempeh", "sos sojowy", "białko sojowe", "lecytyna sojowa"],
+  "sv": ["soja", "sojaböna", "sojabönor", "tofu", "edamame", "miso", "tempeh", "sojasås", "sojaprotein", "sojalecitin"],
+  "da": ["soja", "soyabønne", "soyabønner", "tofu", "edamame", "miso", "tempeh", "sojasauce", "sojaprotein", "sojalecithin"],
+  "no": ["soja", "soyabønne", "soyabønner", "tofu", "edamame", "miso", "tempeh", "soyasaus", "soyaprotein", "soyalecitin"],
+  "fi": ["soija", "soijapapu", "soijapavut", "tofu", "edamame", "miso", "tempeh", "soijakastike", "soijaproteiini", "soijalesitiini"],
+  "el": ["σόγια", "σόγια φασόλι", "τόφου", "εντάμαμε", "μίσο", "τέμπεχ", "σάλτσα σόγιας", "πρωτεΐνη σόγιας", "λεκιθίνη σόγιας"],
+  "hi": ["सोया", "सोयाबीन", "टोफू", "एडामे", "मिसो", "टेम्पेह", "सोया सॉस", "सोया प्रोटीन", "सोया लेसिथिन"]
+}

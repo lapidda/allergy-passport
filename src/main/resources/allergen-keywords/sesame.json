@@ -1,0 +1,22 @@
+{
+  "en": ["sesame", "sesame seed", "sesame seeds", "tahini", "tahina", "sesamum", "benne", "gingelly", "til"],
+  "de": ["sesam", "sesamsaat", "sesamkörner", "tahini", "tahina"],
+  "es": ["sésamo", "ajonjolí", "semilla de sésamo", "tahini", "tahina"],
+  "fr": ["sésame", "graine de sésame", "graines de sésame", "tahini", "tahina"],
+  "it": ["sesamo", "semi di sesamo", "tahini", "tahina"],
+  "pt": ["gergelim", "sésamo", "semente de gergelim", "tahini", "tahina"],
+  "nl": ["sesam", "sesamzaad", "sesamzaden", "tahini", "tahina"],
+  "ru": ["кунжут", "семена кунжута", "тахини", "тахина"],
+  "zh": ["芝麻", "芝麻籽", "芝麻酱", "塔希尼"],
+  "ja": ["ごま", "ゴマ", "胡麻", "タヒニ", "タヒナ"],
+  "ko": ["참깨", "깨", "타히니", "참기름"],
+  "ar": ["سمسم", "بذور السمسم", "طحينة"],
+  "tr": ["susam", "susam tohumu", "tahin"],
+  "pl": ["sezam", "nasiona sezamu", "tahini", "tahina"],
+  "sv": ["sesam", "sesamfrön", "tahini", "tahina"],
+  "da": ["sesam", "sesamfrø", "tahini", "tahina"],
+  "no": ["sesam", "sesamfrø", "tahini", "tahina"],
+  "fi": ["seesami", "seesamisiemen", "tahini"],
+  "el": ["σουσάμι", "σπόροι σουσαμιού", "ταχίνι"],
+  "hi": ["तिल", "तिल के बीज", "ताहिनी"]
+}

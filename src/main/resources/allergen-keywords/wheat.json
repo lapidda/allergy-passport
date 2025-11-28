@@ -1,0 +1,22 @@
+{
+  "en": ["wheat", "wheat flour", "whole wheat", "durum", "semolina", "spelt", "kamut", "farro", "bulgur", "couscous"],
+  "de": ["weizen", "weizenmehl", "vollkorn", "hartweizen", "grieß", "dinkel", "kamut", "bulgur", "couscous"],
+  "es": ["trigo", "harina de trigo", "trigo integral", "trigo duro", "sémola", "espelta", "kamut", "bulgur", "cuscús"],
+  "fr": ["blé", "farine de blé", "blé complet", "blé dur", "semoule", "épeautre", "kamut", "boulgour", "couscous"],
+  "it": ["frumento", "grano", "farina di grano", "grano integrale", "grano duro", "semola", "farro", "kamut", "bulgur", "cuscus"],
+  "pt": ["trigo", "farinha de trigo", "trigo integral", "trigo duro", "sêmola", "espelta", "kamut", "bulgur", "cuscuz"],
+  "nl": ["tarwe", "tarwemeel", "volkoren", "durumtarwe", "griesmeel", "spelt", "kamut", "bulgur", "couscous"],
+  "ru": ["пшеница", "пшеничная мука", "цельная пшеница", "твердая пшеница", "манная крупа", "полба", "камут", "булгур", "кускус"],
+  "zh": ["小麦", "小麦粉", "全麦", "硬粒小麦", "粗麦粉", "斯佩尔特", "卡姆", "碎小麦", "库斯库斯"],
+  "ja": ["小麦", "小麦粉", "全粒小麦", "デュラム小麦", "セモリナ", "スペルト小麦", "カムット", "ブルグル", "クスクス"],
+  "ko": ["밀", "밀가루", "통밀", "듀럼밀", "세몰리나", "스펠트", "카무트", "불구르", "쿠스쿠스"],
+  "ar": ["قمح", "دقيق القمح", "قمح كامل", "قمح قاسي", "سميد", "الحنطة", "كموت", "برغل", "كسكس"],
+  "tr": ["buğday", "buğday unu", "tam buğday", "durum buğdayı", "irmik", "kaplıca", "kamut", "bulgur", "kuskus"],
+  "pl": ["pszenica", "mąka pszenna", "pełne ziarno", "pszenica durum", "kasza manna", "orkisz", "kamut", "bulgur", "kuskus"],
+  "sv": ["vete", "vetemjöl", "fullkorn", "durumvete", "mannagryn", "dinkel", "kamut", "bulgur", "couscous"],
+  "da": ["hvede", "hvedemel", "fuldkorn", "durumhvede", "semulje", "spelt", "kamut", "bulgur", "couscous"],
+  "no": ["hvete", "hvetemel", "fullkorn", "durumhvete", "semule", "spelt", "kamut", "bulgur", "couscous"],
+  "fi": ["vehnä", "vehnäjauho", "täysjyvä", "durumvehnä", "mannasuurimo", "speltti", "kamut", "bulgur", "couscous"],
+  "el": ["σιτάρι", "αλεύρι σιταριού", "ολικής αλέσεως", "σκληρό σιτάρι", "σιμιγδάλι", "ζέα", "καμούτ", "πλιγούρι", "κουσκούς"],
+  "hi": ["गेहूं", "गेहूं का आटा", "साबुत गेहूं", "डरम गेहूं", "सूजी", "स्पेल्ट", "कमट", "बुल्गर", "कूसकूस"]
+}
