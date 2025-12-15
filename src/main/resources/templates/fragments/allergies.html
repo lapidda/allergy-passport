@@ -19,32 +19,42 @@
     
     <!-- Allergy Items -->
     <div th:unless="${#lists.isEmpty(allergies)}">
-        <div th:each="allergy : ${allergies}" 
+        <div th:each="allergy : ${allergies}"
              class="p-4 hover:bg-beige-50 transition-colors">
             <div class="flex items-start justify-between">
                 <div class="flex items-start space-x-3">
-                    <!-- Allergy Icon/Emoji -->
-                    <span class="text-2xl" th:text="${allergy.allergyType.emoji}">🥜</span>
-                    
+                    <!-- Category Icon -->
+                    <span class="text-2xl" th:text="${allergy.allergen.category.icon}">🥜</span>
+
                     <div>
                         <!-- Allergy Name -->
-                        <h3 class="font-medium text-gray-900" th:text="#{${allergy.allergyType.messageKey}}">Peanuts</h3>
-                        
+                        <h3 class="font-medium text-gray-900" th:text="${allergy.allergen.getName(#locale.language)}">Peanuts</h3>
+
                         <!-- Severity Badge -->
                         <span th:if="${allergy.severity.name() == 'SEVERE'}"
                               class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 mt-1">
-                            <span class="mr-1">☠️</span>
+                            <span class="mr-1" th:text="${allergy.severity.icon}">☠️</span>
                             <span th:text="#{severity.severe}">Severe</span>
                         </span>
-                        <span th:if="${allergy.severity.name() == 'INTOLERANCE'}"
-                              class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800 mt-1">
-                            <span class="mr-1">⚠️</span>
-                            <span th:text="#{severity.intolerance}">Intolerance</span>
+                        <span th:if="${allergy.severity.name() == 'INTOLERANCE_SEVERE'}"
+                              class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800 mt-1">
+                            <span class="mr-1" th:text="${allergy.severity.icon}">⚠️⚠️⚠️</span>
+                            <span th:text="#{severity.intolerance_severe}">Severe Intolerance</span>
                         </span>
-                        
+                        <span th:if="${allergy.severity.name() == 'INTOLERANCE_MILD'}"
+                              class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800 mt-1">
+                            <span class="mr-1" th:text="${allergy.severity.icon}">⚠️⚠️</span>
+                            <span th:text="#{severity.intolerance_mild}">Mild Intolerance</span>
+                        </span>
+                        <span th:if="${allergy.severity.name() == 'INTOLERANCE_LOW'}"
+                              class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 mt-1">
+                            <span class="mr-1" th:text="${allergy.severity.icon}">⚠️</span>
+                            <span th:text="#{severity.intolerance_low}">Low Intolerance</span>
+                        </span>
+
                         <!-- Notes -->
-                        <p th:if="${allergy.notes != null and !allergy.notes.isEmpty()}" 
-                           class="text-sm text-gray-500 mt-1" 
+                        <p th:if="${allergy.notes != null and !allergy.notes.isEmpty()}"
+                           class="text-sm text-gray-500 mt-1"
                            th:text="${allergy.notes}">Notes here</p>
                     </div>
                 </div>
@@ -95,8 +105,8 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700" th:text="#{allergy.form.type}">Allergy Type</label>
                 <div class="mt-1 flex items-center space-x-2 p-3 bg-beige-50 rounded-md">
-                    <span th:text="${allergy.allergyType.emoji}">🥜</span>
-                    <span class="font-medium" th:text="#{${allergy.allergyType.messageKey}}">Peanuts</span>
+                    <span th:text="${allergy.allergen.category.icon}">🥜</span>
+                    <span class="font-medium" th:text="${allergy.allergen.getName(#locale.language)}">Peanuts</span>
                 </div>
             </div>
 
@@ -105,17 +115,35 @@
                 <label class="block text-sm font-medium text-gray-700 mb-2" th:text="#{allergy.form.severity}">Severity</label>
                 <div class="space-y-2">
                     <label class="flex items-start p-3 border rounded-lg cursor-pointer hover:bg-beige-50">
-                        <input type="radio" name="severity" value="INTOLERANCE" 
-                               th:checked="${allergy.severity.name() == 'INTOLERANCE'}" required class="mt-1"/>
+                        <input type="radio" name="severity" value="INTOLERANCE_LOW"
+                               th:checked="${allergy.severity.name() == 'INTOLERANCE_LOW'}" required class="mt-1"/>
                         <div class="ml-3">
-                            <span class="block text-sm font-medium text-amber-700">⚠️ <span th:text="#{severity.intolerance}">Intolerance</span></span>
+                            <span class="block text-sm font-medium text-blue-700">⚠️ <span th:text="#{severity.intolerance_low}">Low Intolerance</span></span>
+                            <span class="block text-xs text-gray-500" th:text="#{severity.intolerance_low.desc}">Tolerable in small amounts</span>
                         </div>
                     </label>
                     <label class="flex items-start p-3 border rounded-lg cursor-pointer hover:bg-beige-50">
-                        <input type="radio" name="severity" value="SEVERE" 
+                        <input type="radio" name="severity" value="INTOLERANCE_MILD"
+                               th:checked="${allergy.severity.name() == 'INTOLERANCE_MILD'}" required class="mt-1"/>
+                        <div class="ml-3">
+                            <span class="block text-sm font-medium text-amber-700">⚠️⚠️ <span th:text="#{severity.intolerance_mild}">Mild Intolerance</span></span>
+                            <span class="block text-xs text-gray-500" th:text="#{severity.intolerance_mild.desc}">Causes mild discomfort</span>
+                        </div>
+                    </label>
+                    <label class="flex items-start p-3 border rounded-lg cursor-pointer hover:bg-beige-50">
+                        <input type="radio" name="severity" value="INTOLERANCE_SEVERE"
+                               th:checked="${allergy.severity.name() == 'INTOLERANCE_SEVERE'}" required class="mt-1"/>
+                        <div class="ml-3">
+                            <span class="block text-sm font-medium text-orange-700">⚠️⚠️⚠️ <span th:text="#{severity.intolerance_severe}">Severe Intolerance</span></span>
+                            <span class="block text-xs text-gray-500" th:text="#{severity.intolerance_severe.desc}">Causes severe discomfort</span>
+                        </div>
+                    </label>
+                    <label class="flex items-start p-3 border rounded-lg cursor-pointer hover:bg-beige-50">
+                        <input type="radio" name="severity" value="SEVERE"
                                th:checked="${allergy.severity.name() == 'SEVERE'}" required class="mt-1"/>
                         <div class="ml-3">
                             <span class="block text-sm font-medium text-red-700">☠️ <span th:text="#{severity.severe}">Severe / Anaphylactic</span></span>
+                            <span class="block text-xs text-gray-500" th:text="#{severity.severe.desc}">Can cause life-threatening reaction</span>
                         </div>
                     </label>
                 </div>
@@ -145,45 +173,93 @@
 
 <!-- Add Allergy Form Fragment (for modal loading) -->
 <th:block th:fragment="addAllergyForm">
-    <form hx-post="/api/allergies" 
-          hx-target="#allergy-list" 
-          hx-swap="innerHTML">
+    <form hx-post="/api/allergies"
+          hx-target="#allergy-list"
+          hx-swap="innerHTML"
+          hx-on::after-request="if(event.detail.successful) document.getElementById('addModal').classList.add('hidden')">
         <div class="space-y-4">
+            <!-- Allergen Selection (Category-Grouped) -->
             <div>
-                <label class="block text-sm font-medium text-gray-700" th:text="#{allergy.form.type}">Allergy Type</label>
-                <select name="allergyType" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 py-2 px-3 border">
-                    <option value="">Select an allergy...</option>
-                    <th:block th:each="type : ${allAllergyTypes}">
-                        <option th:unless="${#lists.contains(selectedTypes, type)}"
-                                th:value="${type.name()}" 
-                                th:text="${type.emoji + ' ' + #messages.msg(type.messageKey)}">Peanuts</option>
+                <label class="block text-sm font-medium text-gray-700 mb-2" th:text="#{allergy.form.type}">Allergen</label>
+                <div class="max-h-64 overflow-y-auto border rounded-lg p-3 space-y-3">
+                    <!-- Loop through categories -->
+                    <th:block th:each="entry : ${allergensByCategory}">
+                        <div class="category-group">
+                            <!-- Category Header -->
+                            <div class="flex items-center space-x-2 mb-2 px-2 py-1 bg-beige-100 rounded">
+                                <span class="text-lg" th:text="${entry.key.icon}">⚠️</span>
+                                <span class="text-xs font-semibold text-gray-700 uppercase tracking-wide"
+                                      th:text="${entry.key.getName(#locale.language)}">Legally Mandated</span>
+                            </div>
+
+                            <!-- Allergens in Category -->
+                            <div class="space-y-1 ml-6">
+                                <th:block th:each="allergen : ${entry.value}">
+                                    <label th:unless="${#lists.contains(selectedAllergenIds, allergen.id)}"
+                                           class="flex items-center p-2 hover:bg-beige-50 rounded cursor-pointer">
+                                        <input type="radio" name="allergenId" th:value="${allergen.id}" required
+                                               class="text-primary-600 focus:ring-primary-500"/>
+                                        <span class="ml-2 text-sm" th:text="${allergen.getName(#locale.language)}">Peanuts</span>
+                                    </label>
+                                </th:block>
+                            </div>
+                        </div>
                     </th:block>
-                </select>
+                </div>
             </div>
 
+            <!-- Severity -->
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2" th:text="#{allergy.form.severity}">Severity</label>
                 <div class="space-y-2">
-                    <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-beige-50">
-                        <input type="radio" name="severity" value="INTOLERANCE" required/>
-                        <span class="ml-3 text-sm font-medium text-amber-700">⚠️ <span th:text="#{severity.intolerance}">Intolerance</span></span>
+                    <label class="flex items-start p-3 border rounded-lg cursor-pointer hover:bg-beige-50">
+                        <input type="radio" name="severity" value="INTOLERANCE_LOW" required class="mt-1"/>
+                        <div class="ml-3">
+                            <span class="block text-sm font-medium text-blue-700">⚠️ <span th:text="#{severity.intolerance_low}">Low Intolerance</span></span>
+                            <span class="block text-xs text-gray-500" th:text="#{severity.intolerance_low.desc}">Tolerable in small amounts</span>
+                        </div>
                     </label>
-                    <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-beige-50">
-                        <input type="radio" name="severity" value="SEVERE" required/>
-                        <span class="ml-3 text-sm font-medium text-red-700">☠️ <span th:text="#{severity.severe}">Severe</span></span>
+                    <label class="flex items-start p-3 border rounded-lg cursor-pointer hover:bg-beige-50">
+                        <input type="radio" name="severity" value="INTOLERANCE_MILD" required class="mt-1"/>
+                        <div class="ml-3">
+                            <span class="block text-sm font-medium text-amber-700">⚠️⚠️ <span th:text="#{severity.intolerance_mild}">Mild Intolerance</span></span>
+                            <span class="block text-xs text-gray-500" th:text="#{severity.intolerance_mild.desc}">Causes mild discomfort</span>
+                        </div>
+                    </label>
+                    <label class="flex items-start p-3 border rounded-lg cursor-pointer hover:bg-beige-50">
+                        <input type="radio" name="severity" value="INTOLERANCE_SEVERE" required class="mt-1"/>
+                        <div class="ml-3">
+                            <span class="block text-sm font-medium text-orange-700">⚠️⚠️⚠️ <span th:text="#{severity.intolerance_severe}">Severe Intolerance</span></span>
+                            <span class="block text-xs text-gray-500" th:text="#{severity.intolerance_severe.desc}">Causes severe discomfort</span>
+                        </div>
+                    </label>
+                    <label class="flex items-start p-3 border rounded-lg cursor-pointer hover:bg-beige-50">
+                        <input type="radio" name="severity" value="SEVERE" required class="mt-1"/>
+                        <div class="ml-3">
+                            <span class="block text-sm font-medium text-red-700">☠️ <span th:text="#{severity.severe}">Severe / Anaphylactic</span></span>
+                            <span class="block text-xs text-gray-500" th:text="#{severity.severe.desc}">Can cause life-threatening reaction</span>
+                        </div>
                     </label>
                 </div>
             </div>
 
+            <!-- Notes -->
             <div>
-                <label class="block text-sm font-medium text-gray-700" th:text="#{allergy.form.notes}">Notes</label>
-                <textarea name="notes" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm py-2 px-3 border"></textarea>
+                <label class="block text-sm font-medium text-gray-700" th:text="#{allergy.form.notes}">Notes (Optional)</label>
+                <textarea name="notes" rows="2"
+                          th:placeholder="#{allergy.form.notes.placeholder}"
+                          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 py-2 px-3 border"></textarea>
             </div>
         </div>
 
         <div class="mt-6 flex justify-end space-x-3">
-            <button type="button" class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-beige-50" th:text="#{allergy.form.cancel}">Cancel</button>
-            <button type="submit" class="px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-primary-600 hover:bg-primary-700" th:text="#{allergy.form.save}">Save</button>
+            <button type="button"
+                    onclick="document.getElementById('addModal').classList.add('hidden')"
+                    class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-beige-50"
+                    th:text="#{allergy.form.cancel}">Cancel</button>
+            <button type="submit"
+                    class="px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-primary-600 hover:bg-primary-700"
+                    th:text="#{allergy.form.save}">Save</button>
         </div>
     </form>
 </th:block>

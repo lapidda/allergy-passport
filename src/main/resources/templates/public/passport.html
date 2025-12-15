@@ -105,11 +105,11 @@
                          class="allergy-card severity-severe p-4 sm:p-5">
                         <div class="flex items-start space-x-3 sm:space-x-4">
                             <!-- Icon -->
-                            <span class="allergy-icon text-2xl sm:text-3xl" th:text="${allergy.allergyType.emoji}">🥜</span>
+                            <span class="allergy-icon text-2xl sm:text-3xl" th:text="${allergy.allergen.emoji}">🥜</span>
 
                             <div class="flex-1 min-w-0">
                                 <!-- Allergy Name -->
-                                <h3 class="text-base sm:text-lg font-bold text-danger-800" th:text="#{${allergy.allergyType.messageKey}}">Peanuts</h3>
+                                <h3 class="text-base sm:text-lg font-bold text-danger-800" th:text="${allergy.allergen.getName(currentLocale.language)}">Peanuts</h3>
 
                                 <!-- Severity Badge -->
                                 <div class="mt-1 inline-flex items-center px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-bold bg-danger-600 text-white">
@@ -129,26 +129,79 @@
                         </div>
                     </div>
 
-                    <!-- Intolerance -->
-                    <div th:if="${allergy.severity.name() == 'INTOLERANCE'}"
+                    <!-- Intolerance Severe -->
+                    <div th:if="${allergy.severity.name() == 'INTOLERANCE_SEVERE'}"
                          class="allergy-card severity-intolerance p-4 sm:p-5">
                         <div class="flex items-start space-x-3 sm:space-x-4">
                             <!-- Icon -->
-                            <span class="allergy-icon text-2xl sm:text-3xl" th:text="${allergy.allergyType.emoji}">🥜</span>
+                            <span class="allergy-icon text-2xl sm:text-3xl" th:text="${allergy.allergen.emoji}">🥜</span>
 
                             <div class="flex-1 min-w-0">
                                 <!-- Allergy Name -->
-                                <h3 class="text-base sm:text-lg font-bold text-warning-700" th:text="#{${allergy.allergyType.messageKey}}">Dairy</h3>
+                                <h3 class="text-base sm:text-lg font-bold text-warning-700" th:text="${allergy.allergen.getName(currentLocale.language)}">Dairy</h3>
 
                                 <!-- Severity Badge -->
-                                <div class="mt-1 inline-flex items-center px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium bg-warning-500 text-white">
+                                <div class="mt-1 inline-flex items-center px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium bg-warning-600 text-white">
                                     <span>⚠️</span>
-                                    <span class="ml-1" th:text="#{passport.warning.intolerance}">Intolerance</span>
+                                    <span class="ml-1" th:text="#{passport.warning.intolerance.severe}">Severe Intolerance</span>
                                 </div>
 
                                 <!-- Notes (translated if available) -->
                                 <p th:if="${allergy.notes != null and !allergy.notes.isEmpty()}"
                                    class="mt-3 text-xs sm:text-sm text-warning-700 bg-white bg-opacity-50 rounded-lg p-2 sm:p-3">
+                                    <span class="font-medium" th:text="#{passport.notes}">Notes</span>:
+                                    <span th:text="${translatedNotes != null and translatedNotes[allergy.id] != null ? translatedNotes[allergy.id] : allergy.notes}">Notes here</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Intolerance Mild -->
+                    <div th:if="${allergy.severity.name() == 'INTOLERANCE_MILD'}"
+                         class="allergy-card severity-intolerance p-4 sm:p-5">
+                        <div class="flex items-start space-x-3 sm:space-x-4">
+                            <!-- Icon -->
+                            <span class="allergy-icon text-2xl sm:text-3xl" th:text="${allergy.allergen.emoji}">🥜</span>
+
+                            <div class="flex-1 min-w-0">
+                                <!-- Allergy Name -->
+                                <h3 class="text-base sm:text-lg font-bold text-warning-600" th:text="${allergy.allergen.getName(currentLocale.language)}">Dairy</h3>
+
+                                <!-- Severity Badge -->
+                                <div class="mt-1 inline-flex items-center px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium bg-warning-500 text-white">
+                                    <span>⚠️</span>
+                                    <span class="ml-1" th:text="#{passport.warning.intolerance.mild}">Mild Intolerance</span>
+                                </div>
+
+                                <!-- Notes (translated if available) -->
+                                <p th:if="${allergy.notes != null and !allergy.notes.isEmpty()}"
+                                   class="mt-3 text-xs sm:text-sm text-warning-600 bg-white bg-opacity-50 rounded-lg p-2 sm:p-3">
+                                    <span class="font-medium" th:text="#{passport.notes}">Notes</span>:
+                                    <span th:text="${translatedNotes != null and translatedNotes[allergy.id] != null ? translatedNotes[allergy.id] : allergy.notes}">Notes here</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Intolerance Low -->
+                    <div th:if="${allergy.severity.name() == 'INTOLERANCE_LOW'}"
+                         class="allergy-card p-4 sm:p-5 bg-gray-50 border-l-4 border-gray-400">
+                        <div class="flex items-start space-x-3 sm:space-x-4">
+                            <!-- Icon -->
+                            <span class="allergy-icon text-2xl sm:text-3xl" th:text="${allergy.allergen.emoji}">🥜</span>
+
+                            <div class="flex-1 min-w-0">
+                                <!-- Allergy Name -->
+                                <h3 class="text-base sm:text-lg font-bold text-gray-700" th:text="${allergy.allergen.getName(currentLocale.language)}">Dairy</h3>
+
+                                <!-- Severity Badge -->
+                                <div class="mt-1 inline-flex items-center px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium bg-gray-500 text-white">
+                                    <span class="ml-1" th:text="#{passport.warning.intolerance.low}">Low Intolerance</span>
+                                </div>
+
+                                <!-- Notes (translated if available) -->
+                                <p th:if="${allergy.notes != null and !allergy.notes.isEmpty()}"
+                                   class="mt-3 text-xs sm:text-sm text-gray-600 bg-white bg-opacity-50 rounded-lg p-2 sm:p-3">
                                     <span class="font-medium" th:text="#{passport.notes}">Notes</span>:
                                     <span th:text="${translatedNotes != null and translatedNotes[allergy.id] != null ? translatedNotes[allergy.id] : allergy.notes}">Notes here</span>
                                 </p>

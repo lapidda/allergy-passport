@@ -5,11 +5,11 @@ import java.time.LocalDateTime;
 
 /**
  * Entity representing a user's specific allergy with severity and custom notes.
- * This is the "join" entity between User and AllergyType with additional attributes.
+ * This is the "join" entity between User and Allergen with additional attributes.
  */
 @Entity
-@Table(name = "user_allergies", 
-       uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "allergy_type"}))
+@Table(name = "user_allergies",
+       uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "allergen_id"}))
 public class UserAllergy {
 
     @Id
@@ -21,14 +21,14 @@ public class UserAllergy {
     private User user;
 
     /**
-     * The type of allergy from the predefined list.
+     * The allergen from the database-driven allergen list.
      */
-    @Enumerated(EnumType.STRING)
-    @Column(name = "allergy_type", nullable = false)
-    private AllergyType allergyType;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "allergen_id", nullable = false)
+    private Allergen allergen;
 
     /**
-     * Severity level: INTOLERANCE or SEVERE (anaphylactic).
+     * Severity level: INTOLERANCE_LOW, INTOLERANCE_MILD, INTOLERANCE_SEVERE, or SEVERE (anaphylactic).
      */
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -51,14 +51,14 @@ public class UserAllergy {
     public UserAllergy() {
     }
 
-    public UserAllergy(User user, AllergyType allergyType, AllergySeverity severity) {
+    public UserAllergy(User user, Allergen allergen, AllergySeverity severity) {
         this.user = user;
-        this.allergyType = allergyType;
+        this.allergen = allergen;
         this.severity = severity;
     }
 
-    public UserAllergy(User user, AllergyType allergyType, AllergySeverity severity, String notes) {
-        this(user, allergyType, severity);
+    public UserAllergy(User user, Allergen allergen, AllergySeverity severity, String notes) {
+        this(user, allergen, severity);
         this.notes = notes;
     }
 
@@ -93,12 +93,12 @@ public class UserAllergy {
         this.user = user;
     }
 
-    public AllergyType getAllergyType() {
-        return allergyType;
+    public Allergen getAllergen() {
+        return allergen;
     }
 
-    public void setAllergyType(AllergyType allergyType) {
-        this.allergyType = allergyType;
+    public void setAllergen(Allergen allergen) {
+        this.allergen = allergen;
     }
 
     public AllergySeverity getSeverity() {

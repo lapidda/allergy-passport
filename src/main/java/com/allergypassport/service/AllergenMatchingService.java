@@ -1,86 +1,86 @@
 package com.allergypassport.service;
 
 import com.allergypassport.dto.DetectedAllergen;
-import com.allergypassport.entity.AllergyType;
+import com.allergypassport.entity.Allergen;
+import com.allergypassport.entity.AllergenKeyword;
 import com.allergypassport.entity.UserAllergy;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.allergypassport.repository.AllergenKeywordRepository;
+import com.allergypassport.repository.AllergenRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.PostConstruct;
-import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Service for matching allergen keywords in text across multiple languages.
- * Loads keyword mappings from JSON files and performs case-insensitive matching.
+ * Loads keyword mappings from database and performs case-insensitive matching.
  */
 @Service
 public class AllergenMatchingService {
 
     private static final Logger log = LoggerFactory.getLogger(AllergenMatchingService.class);
 
-    private final ObjectMapper objectMapper;
-    private final Map<AllergyType, Map<String, List<String>>> allergenKeywords;
+    private final AllergenRepository allergenRepository;
+    private final AllergenKeywordRepository keywordRepository;
 
-    public AllergenMatchingService(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
+    // Map structure: Allergen ID -> Language Code -> List of Keywords
+    private final Map<Long, Map<String, List<String>>> allergenKeywords;
+
+    public AllergenMatchingService(AllergenRepository allergenRepository,
+                                   AllergenKeywordRepository keywordRepository) {
+        this.allergenRepository = allergenRepository;
+        this.keywordRepository = keywordRepository;
         this.allergenKeywords = new HashMap<>();
     }
 
     /**
-     * Load allergen keyword mappings from JSON files on startup.
+     * Load allergen keyword mappings from database on startup.
      */
     @PostConstruct
     public void loadKeywords() {
-        log.info("Loading allergen keyword mappings...");
+        log.info("Loading allergen keyword mappings from database...");
 
         try {
-            PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-            Resource[] resources = resolver.getResources("classpath:allergen-keywords/*.json");
+            // Load all allergen keywords from database
+            List<AllergenKeyword> allKeywords = keywordRepository.findAll();
 
-            for (Resource resource : resources) {
-                String filename = resource.getFilename();
-                if (filename == null) continue;
+            // Group keywords by allergen ID and language code
+            Map<Long, Map<String, List<String>>> keywordMap = allKeywords.stream()
+                    .collect(Collectors.groupingBy(
+                            kw -> kw.getAllergen().getId(),
+                            Collectors.groupingBy(
+                                    AllergenKeyword::getLanguageCode,
+                                    Collectors.mapping(
+                                            AllergenKeyword::getKeyword,
+                                            Collectors.toList()
+                                    )
+                            )
+                    ));
 
-                // Extract allergen type from filename (e.g., "peanuts.json" -> "PEANUTS")
-                String allergenName = filename.replace(".json", "").toUpperCase();
+            allergenKeywords.clear();
+            allergenKeywords.putAll(keywordMap);
 
-                try {
-                    AllergyType allergyType = AllergyType.valueOf(allergenName);
+            int totalKeywords = allKeywords.size();
+            int allergenCount = allergenKeywords.size();
 
-                    // Load keyword map from JSON
-                    Map<String, List<String>> keywords = objectMapper.readValue(
-                            resource.getInputStream(),
-                            new TypeReference<Map<String, List<String>>>() {}
-                    );
+            log.info("Successfully loaded {} keywords for {} allergens", totalKeywords, allergenCount);
 
-                    allergenKeywords.put(allergyType, keywords);
-
-                    int totalKeywords = keywords.values().stream()
-                            .mapToInt(List::size)
-                            .sum();
-
-                    log.debug("Loaded {} keywords for {} across {} languages",
-                            totalKeywords, allergyType, keywords.size());
-
-                } catch (IllegalArgumentException e) {
-                    log.warn("Unknown allergen type in filename: {}", filename);
-                } catch (IOException e) {
-                    log.error("Failed to load keywords from {}: {}", filename, e.getMessage());
-                }
-            }
-
-            log.info("Successfully loaded keyword mappings for {} allergen types", allergenKeywords.size());
-
-        } catch (IOException e) {
-            log.error("Failed to load allergen keyword files: {}", e.getMessage(), e);
+        } catch (Exception e) {
+            log.error("Failed to load allergen keyword mappings from database: {}", e.getMessage(), e);
         }
+    }
+
+    /**
+     * Refresh keyword cache from database.
+     * Useful when keywords are updated dynamically.
+     */
+    public void refreshKeywords() {
+        log.info("Refreshing allergen keyword cache...");
+        loadKeywords();
     }
 
     /**
@@ -110,11 +110,13 @@ public class AllergenMatchingService {
         log.debug("Searching for allergens in text (language: {})", langCode);
 
         for (UserAllergy userAllergy : userAllergies) {
-            AllergyType allergyType = userAllergy.getAllergyType();
-            Map<String, List<String>> keywordMap = allergenKeywords.get(allergyType);
+            Allergen allergen = userAllergy.getAllergen();
+            Long allergenId = allergen.getId();
+
+            Map<String, List<String>> keywordMap = allergenKeywords.get(allergenId);
 
             if (keywordMap == null) {
-                log.warn("No keyword mapping found for {}", allergyType);
+                log.warn("No keyword mapping found for allergen: {} (ID: {})", allergen.getCode(), allergenId);
                 continue;
             }
 
@@ -123,7 +125,7 @@ public class AllergenMatchingService {
             if (keywords == null || keywords.isEmpty()) {
                 keywords = keywordMap.get("en"); // Fallback to English
                 if (keywords == null) {
-                    log.debug("No keywords found for {} in language {}", allergyType, langCode);
+                    log.debug("No keywords found for {} in language {}", allergen.getCode(), langCode);
                     continue;
                 }
             }
@@ -151,16 +153,16 @@ public class AllergenMatchingService {
                 }
 
                 if (found) {
-                    log.info("Allergen detected: {} (keyword: '{}')", allergyType, keyword);
+                    log.info("Allergen detected: {} (keyword: '{}')", allergen.getCode(), keyword);
 
                     DetectedAllergen detection = new DetectedAllergen(
-                            allergyType,
+                            allergen,
                             keyword,
                             userAllergy.getSeverity()
                     );
 
                     detections.add(detection);
-                    break; // Only add one detection per allergen type
+                    break; // Only add one detection per allergen
                 }
             }
         }
@@ -209,16 +211,28 @@ public class AllergenMatchingService {
     }
 
     /**
-     * Get the number of loaded allergen types.
+     * Get the number of loaded allergens with keywords.
      */
     public int getLoadedAllergenCount() {
         return allergenKeywords.size();
     }
 
     /**
-     * Check if keywords are loaded for a specific allergen type.
+     * Check if keywords are loaded for a specific allergen.
      */
-    public boolean hasKeywords(AllergyType allergyType) {
-        return allergenKeywords.containsKey(allergyType);
+    public boolean hasKeywords(Long allergenId) {
+        return allergenKeywords.containsKey(allergenId);
+    }
+
+    /**
+     * Get keywords for a specific allergen and language.
+     * Useful for debugging or admin purposes.
+     */
+    public List<String> getKeywordsForAllergen(Long allergenId, String languageCode) {
+        Map<String, List<String>> keywordMap = allergenKeywords.get(allergenId);
+        if (keywordMap == null) {
+            return Collections.emptyList();
+        }
+        return keywordMap.getOrDefault(languageCode, Collections.emptyList());
     }
 }

@@ -1,8 +1,10 @@
 package com.allergypassport.controller;
 
-import com.allergypassport.entity.AllergyType;
+import com.allergypassport.entity.Allergen;
+import com.allergypassport.entity.AllergenCategory;
 import com.allergypassport.entity.User;
 import com.allergypassport.repository.UserRepository;
+import com.allergypassport.service.AllergenService;
 import com.allergypassport.service.CustomOAuth2User;
 import com.allergypassport.service.TranslationService;
 import com.allergypassport.service.UserService;
@@ -19,9 +21,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Main controller for page rendering (Thymeleaf views).
@@ -36,6 +38,7 @@ public class PageController {
     private final QRCodeService qrCodeService;
     private final MessageSource messageSource;
     private final TranslationService translationService;
+    private final AllergenService allergenService;
 
     // Supported languages for the public view - 20 languages for restaurants/travel
     private static final List<Locale> SUPPORTED_LOCALES = List.of(
@@ -65,12 +68,14 @@ public class PageController {
                           UserRepository userRepository,
                           QRCodeService qrCodeService,
                           MessageSource messageSource,
-                          TranslationService translationService) {
+                          TranslationService translationService,
+                          AllergenService allergenService) {
         this.userService = userService;
         this.userRepository = userRepository;
         this.qrCodeService = qrCodeService;
         this.messageSource = messageSource;
         this.translationService = translationService;
+        this.allergenService = allergenService;
     }
 
     /**
@@ -112,9 +117,18 @@ public class PageController {
         User user = userService.findByGoogleIdWithAllergies(principal.getGoogleId())
                 .orElseThrow(() -> new IllegalStateException("User not found"));
 
+        // Get allergens grouped by category
+        Map<AllergenCategory, List<Allergen>> allergensByCategory = allergenService.getAllergensByCategory();
+
+        // Get list of already selected allergen IDs to filter them out
+        List<Long> selectedAllergenIds = user.getAllergies().stream()
+                .map(ua -> ua.getAllergen().getId())
+                .toList();
+
         model.addAttribute("user", user);
         model.addAttribute("allergies", user.getAllergies());
-        model.addAttribute("allAllergyTypes", AllergyType.values());
+        model.addAttribute("allergensByCategory", allergensByCategory);
+        model.addAttribute("selectedAllergenIds", selectedAllergenIds);
         model.addAttribute("publicUrl", qrCodeService.buildPublicUrl(user.getPublicId()));
 
         // Generate QR code
@@ -245,11 +259,12 @@ public class PageController {
     }
 
     /**
-     * Get available allergy types as a partial (for HTMX).
+     * Get available allergens grouped by category (for HTMX).
      */
-    @GetMapping("/allergy-types")
-    public String getAllergyTypes(Model model) {
-        model.addAttribute("allAllergyTypes", Arrays.asList(AllergyType.values()));
-        return "fragments/allergy-types :: allergyTypesList";
+    @GetMapping("/allergens")
+    public String getAllergens(Model model) {
+        Map<AllergenCategory, List<Allergen>> allergensByCategory = allergenService.getAllergensByCategory();
+        model.addAttribute("allergensByCategory", allergensByCategory);
+        return "fragments/allergens :: allergensList";
     }
 }

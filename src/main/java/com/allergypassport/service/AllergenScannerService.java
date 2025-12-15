@@ -86,7 +86,7 @@ public class AllergenScannerService {
 
         if (allergensFound) {
             log.warn("ALLERGEN ALERT: Found {} allergen(s) in scanned image", detections.size());
-            detections.forEach(d -> log.warn("  - {} (keyword: '{}')", d.allergyType(), d.matchedKeyword()));
+            detections.forEach(d -> log.warn("  - {} (keyword: '{}')", d.allergen().getName(languageCode), d.matchedKeyword()));
         } else {
             log.info("No allergens detected in scanned image");
         }

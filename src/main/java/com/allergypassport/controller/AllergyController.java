@@ -1,13 +1,17 @@
 package com.allergypassport.controller;
 
+import com.allergypassport.dto.AllergenCategoryDTO;
+import com.allergypassport.dto.AllergenDTO;
 import com.allergypassport.dto.AllergyRequest;
 import com.allergypassport.dto.ProfileRequest;
 import com.allergypassport.dto.ScanResult;
+import com.allergypassport.entity.Allergen;
+import com.allergypassport.entity.AllergenCategory;
 import com.allergypassport.entity.AllergySeverity;
-import com.allergypassport.entity.AllergyType;
 import com.allergypassport.entity.User;
 import com.allergypassport.entity.UserAllergy;
 import com.allergypassport.service.AllergenScannerService;
+import com.allergypassport.service.AllergenService;
 import com.allergypassport.service.CustomOAuth2User;
 import com.allergypassport.service.UserService;
 import com.allergypassport.util.QRCodeService;
@@ -28,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -43,12 +48,15 @@ public class AllergyController {
     private final UserService userService;
     private final QRCodeService qrCodeService;
     private final AllergenScannerService scannerService;
+    private final AllergenService allergenService;
 
     public AllergyController(UserService userService,
                             QRCodeService qrCodeService,
+                            AllergenService allergenService,
                             @Autowired(required = false) AllergenScannerService scannerService) {
         this.userService = userService;
         this.qrCodeService = qrCodeService;
+        this.allergenService = allergenService;
         this.scannerService = scannerService;
     }
 
@@ -69,13 +77,13 @@ public class AllergyController {
      */
     @PostMapping("/allergies")
     public String addAllergy(@AuthenticationPrincipal CustomOAuth2User principal,
-                             @RequestParam("allergyType") AllergyType allergyType,
+                             @RequestParam("allergenId") Long allergenId,
                              @RequestParam("severity") AllergySeverity severity,
                              @RequestParam(value = "notes", required = false) String notes,
                              Model model) {
         try {
-            userService.saveAllergy(principal.getUserId(), allergyType, severity, notes);
-            log.info("User {} added allergy: {}", principal.getUserId(), allergyType);
+            userService.saveAllergy(principal.getUserId(), allergenId, severity, notes);
+            log.info("User {} added allergen: {}", principal.getUserId(), allergenId);
         } catch (Exception e) {
             log.error("Failed to add allergy for user {}", principal.getUserId(), e);
             model.addAttribute("error", "Failed to add allergy: " + e.getMessage());
@@ -97,14 +105,14 @@ public class AllergyController {
                                 @RequestParam(value = "notes", required = false) String notes,
                                 Model model) {
         try {
-            // Get the existing allergy to get its type
+            // Get the existing allergy to get its allergen ID
             UserAllergy existing = userService.getUserAllergies(principal.getUserId())
                     .stream()
                     .filter(a -> a.getId().equals(id))
                     .findFirst()
                     .orElseThrow(() -> new IllegalArgumentException("Allergy not found"));
 
-            userService.saveAllergy(principal.getUserId(), existing.getAllergyType(), severity, notes);
+            userService.saveAllergy(principal.getUserId(), existing.getAllergen().getId(), severity, notes);
             log.info("User {} updated allergy: {}", principal.getUserId(), id);
         } catch (Exception e) {
             log.error("Failed to update allergy {} for user {}", id, principal.getUserId(), e);
@@ -143,12 +151,15 @@ public class AllergyController {
     public String getAllergyForm(@AuthenticationPrincipal CustomOAuth2User principal, Model model) {
         // Get already selected allergies to filter them out
         List<UserAllergy> existingAllergies = userService.getUserAllergies(principal.getUserId());
-        List<AllergyType> selectedTypes = existingAllergies.stream()
-                .map(UserAllergy::getAllergyType)
+        List<Long> selectedAllergenIds = existingAllergies.stream()
+                .map(ua -> ua.getAllergen().getId())
                 .toList();
 
-        model.addAttribute("allAllergyTypes", AllergyType.values());
-        model.addAttribute("selectedTypes", selectedTypes);
+        // Get all allergens grouped by category
+        Map<AllergenCategory, List<Allergen>> allergensByCategory = allergenService.getAllergensByCategory();
+
+        model.addAttribute("allergensByCategory", allergensByCategory);
+        model.addAttribute("selectedAllergenIds", selectedAllergenIds);
         model.addAttribute("severities", AllergySeverity.values());
         return "fragments/allergies :: addAllergyForm";
     }

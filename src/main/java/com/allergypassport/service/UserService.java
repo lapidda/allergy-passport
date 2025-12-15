@@ -1,9 +1,10 @@
 package com.allergypassport.service;
 
+import com.allergypassport.entity.Allergen;
 import com.allergypassport.entity.AllergySeverity;
-import com.allergypassport.entity.AllergyType;
 import com.allergypassport.entity.User;
 import com.allergypassport.entity.UserAllergy;
+import com.allergypassport.repository.AllergenRepository;
 import com.allergypassport.repository.UserAllergyRepository;
 import com.allergypassport.repository.UserRepository;
 import org.slf4j.Logger;
@@ -27,10 +28,14 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserAllergyRepository userAllergyRepository;
+    private final AllergenRepository allergenRepository;
 
-    public UserService(UserRepository userRepository, UserAllergyRepository userAllergyRepository) {
+    public UserService(UserRepository userRepository,
+                      UserAllergyRepository userAllergyRepository,
+                      AllergenRepository allergenRepository) {
         this.userRepository = userRepository;
         this.userAllergyRepository = userAllergyRepository;
+        this.allergenRepository = allergenRepository;
     }
 
     /**
@@ -113,43 +118,47 @@ public class UserService {
     }
 
     /**
-     * Get all allergies for a user.
+     * Get all allergies for a user, ordered by category and allergen display order.
+     * Uses JOIN FETCH to eagerly load allergen and category data.
      */
     @Transactional(readOnly = true)
     public List<UserAllergy> getUserAllergies(Long userId) {
-        return userAllergyRepository.findByUserId(userId);
+        return userAllergyRepository.findByUserIdWithAllergenAndCategory(userId);
     }
 
     /**
      * Add or update an allergy for a user.
      */
-    public UserAllergy saveAllergy(Long userId, AllergyType allergyType, AllergySeverity severity, String notes) {
+    public UserAllergy saveAllergy(Long userId, Long allergenId, AllergySeverity severity, String notes) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found: " + userId));
 
+        Allergen allergen = allergenRepository.findById(allergenId)
+                .orElseThrow(() -> new IllegalArgumentException("Allergen not found: " + allergenId));
+
         // Check if allergy already exists
-        Optional<UserAllergy> existing = userAllergyRepository.findByUserIdAndAllergyType(userId, allergyType);
+        Optional<UserAllergy> existing = userAllergyRepository.findByUserIdAndAllergenId(userId, allergenId);
 
         UserAllergy allergy;
         if (existing.isPresent()) {
             allergy = existing.get();
             allergy.setSeverity(severity);
             allergy.setNotes(notes != null ? notes.trim() : null);
-            log.info("Updated allergy {} for user {}", allergyType, userId);
+            log.info("Updated allergy {} for user {}", allergen.getCode(), userId);
         } else {
-            allergy = new UserAllergy(user, allergyType, severity, notes != null ? notes.trim() : null);
-            log.info("Added allergy {} for user {}", allergyType, userId);
+            allergy = new UserAllergy(user, allergen, severity, notes != null ? notes.trim() : null);
+            log.info("Added allergy {} for user {}", allergen.getCode(), userId);
         }
 
         return userAllergyRepository.save(allergy);
     }
 
     /**
-     * Remove an allergy from a user.
+     * Remove an allergy from a user by allergen ID.
      */
-    public void removeAllergy(Long userId, AllergyType allergyType) {
-        userAllergyRepository.deleteByUserIdAndAllergyType(userId, allergyType);
-        log.info("Removed allergy {} for user {}", allergyType, userId);
+    public void removeAllergy(Long userId, Long allergenId) {
+        userAllergyRepository.deleteByUserIdAndAllergenId(userId, allergenId);
+        log.info("Removed allergen {} for user {}", allergenId, userId);
     }
 
     /**

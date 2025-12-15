@@ -33,13 +33,23 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     /**
      * Find user with allergies eagerly loaded (for public view).
+     * Includes allergen and category data to avoid LazyInitializationException.
      */
-    @Query("SELECT u FROM User u LEFT JOIN FETCH u.allergies WHERE u.publicId = :publicId")
+    @Query("SELECT DISTINCT u FROM User u " +
+           "LEFT JOIN FETCH u.allergies ua " +
+           "LEFT JOIN FETCH ua.allergen a " +
+           "LEFT JOIN FETCH a.category " +
+           "WHERE u.publicId = :publicId")
     Optional<User> findByPublicIdWithAllergies(@Param("publicId") String publicId);
 
     /**
      * Find user by Google ID with allergies eagerly loaded.
+     * Includes allergen and category data to avoid LazyInitializationException.
      */
-    @Query("SELECT u FROM User u LEFT JOIN FETCH u.allergies WHERE u.googleId = :googleId")
+    @Query("SELECT DISTINCT u FROM User u " +
+           "LEFT JOIN FETCH u.allergies ua " +
+           "LEFT JOIN FETCH ua.allergen a " +
+           "LEFT JOIN FETCH a.category " +
+           "WHERE u.googleId = :googleId")
     Optional<User> findByGoogleIdWithAllergies(@Param("googleId") String googleId);
 }
